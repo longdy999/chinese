@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>普通话 Business Mandarin Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1209;
+    --paper: #faf6ef;
+    --red: #c0392b;
+    --gold: #b8860b;
+    --gold-light: #e8c84a;
+    --muted: #7a6a55;
+    --border: #d4c4a0;
+    --card: #fff9f0;
+    --accent: #8b1a1a;
+    --green: #2d6a4f;
+    --blue: #1a4a7a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 10% 0%, rgba(192,57,43,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 100%, rgba(184,134,11,0.08) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 24px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '商';
+    position: absolute; top: -20px; right: 16px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 120px; color: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  header h1 span {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--gold-light);
+  }
+  header p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    background: var(--card);
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .stat-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--red);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* WEEK TABS */
+  .week-tabs {
+    display: flex;
+    overflow-x: auto;
+    padding: 16px 16px 0;
+    gap: 8px;
+    scrollbar-width: none;
+  }
+  .week-tabs::-webkit-scrollbar { display: none; }
+  .week-tab {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .week-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .week-tab:hover:not(.active) {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* WEEK INFO */
+  .week-info {
+    margin: 16px 16px 8px;
+    padding: 14px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .week-info::after {
+    content: attr(data-char);
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 52px;
+    color: rgba(255,255,255,0.07);
+    pointer-events: none;
+  }
+  .week-theme {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 4px;
+  }
+  .week-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .week-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+  }
+
+  /* DAY CARDS */
+  .days-list {
+    padding: 0 16px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .day-card.completed {
+    opacity: 0.75;
+    border-color: var(--green);
+  }
+  .day-card.completed .day-header {
+    background: var(--green);
+  }
+  .day-card.test-day .day-header {
+    background: var(--accent);
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    user-select: none;
+  }
+  .day-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .day-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--gold-light);
+    line-height: 1;
+    min-width: 28px;
+  }
+  .day-info {}
+  .day-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .day-subtitle {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Noto Serif SC', serif;
+    margin-top: 1px;
+  }
+  .day-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .day-time {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+  .day-toggle {
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+  .day-card.open .day-toggle { transform: rotate(180deg); }
+
+  .day-body {
+    display: none;
+    padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .day-card.open .day-body { display: block; }
+
+  /* SECTIONS inside day */
+  .section {
+    margin-bottom: 16px;
+  }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .section-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .icon-vocab { background: #fef3c7; }
+  .icon-speak { background: #fee2e2; }
+  .icon-listen { background: #dbeafe; }
+  .icon-grammar { background: #dcfce7; }
+  .icon-review { background: #f3e8ff; }
+  .icon-test { background: #ffe4e6; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .section-time {
+    font-size: 10px;
+    color: var(--border);
+    margin-left: auto;
+  }
+
+  /* VOCAB ITEMS */
+  .vocab-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .vocab-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .vocab-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    color: var(--red);
+    line-height: 1;
+  }
+  .vocab-pinyin {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .vocab-en { font-size: 13px; font-weight: 500; }
+  .vocab-km { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .vocab-example {
+    font-size: 11px;
+    color: var(--blue);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+    font-family: 'Noto Serif SC', serif;
+  }
+  .vocab-example-en {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 2px;
+  }
+
+  /* TASK ITEMS */
+  .task-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    align-items: flex-start;
+  }
+  .task-bullet {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .task-text { font-size: 13px; line-height: 1.5; }
+  .task-km { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .task-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    color: var(--red);
+    margin-top: 4px;
+  }
+  .task-pinyin { font-size: 11px; color: var(--blue); font-style: italic; }
+
+  /* GRAMMAR BOX */
+  .grammar-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 3px solid var(--gold);
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .grammar-rule {
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .grammar-pattern {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--red);
+    font-size: 14px;
+    margin: 6px 0;
+  }
+  .grammar-km { font-size: 11px; color: var(--muted); }
+
+  /* CHECKPOINT */
+  .checkpoint-box {
+    background: linear-gradient(135deg, #1a1209, #3d2b1f);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .checkpoint-box::before {
+    content: '✓';
+    position: absolute; right: 16px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 60px;
+    color: rgba(255,255,255,0.06);
+  }
+  .checkpoint-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+  }
+  .checkpoint-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .checkpoint-list {
+    list-style: none;
+  }
+  .checkpoint-list li {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+  .checkpoint-list li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--gold-light);
+  }
+
+  /* TEST BOX */
+  .test-card {
+    background: var(--card);
+    border: 1.5px solid var(--accent);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px 16px;
+  }
+  .test-header {
+    background: var(--accent);
+    color: white;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .test-header-icon { font-size: 18px; }
+  .test-header-text {}
+  .test-header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+  }
+  .test-header-sub {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+  .test-body { padding: 14px 16px; }
+  .test-q {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .test-q:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .test-q-num {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .test-q-text { font-size: 13px; line-height: 1.5; }
+  .test-q-zh {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--red);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .test-answer {
+    display: none;
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--green);
+  }
+  .test-answer.show { display: block; }
+  .reveal-btn {
+    margin-top: 6px;
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reveal-btn:hover { background: var(--accent); color: white; }
+
+  /* COMPLETE BUTTON */
+  .complete-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+  }
+  .complete-btn:hover { background: var(--red); }
+  .complete-btn.done { background: var(--green); }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    padding: 12px 16px 4px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--ink);
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    z-index: 100;
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 12px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: color 0.2s;
+  }
+  .nav-btn.active { color: var(--gold-light); }
+  .nav-btn span { font-size: 16px; }
+  .nav-btn small { font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* VIEWS */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* PHRASEBOOK VIEW */
+  .phrase-section { padding: 16px; }
+  .phrase-section h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .phrase-section p {
+    font-size: 12px; color: var(--muted); margin-bottom: 16px;
+  }
+  .phrase-category {
+    margin-bottom: 20px;
+  }
+  .phrase-cat-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phrase-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .phrase-zh {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px;
+    color: var(--red);
+  }
+  .phrase-pinyin { font-size: 11px; color: var(--muted); font-style: italic; margin: 2px 0; }
+  .phrase-en { font-size: 12px; font-weight: 500; }
+  .phrase-km { font-size: 11px; color: var(--muted); }
+  .phrase-context {
+    font-size: 10px;
+    color: var(--blue);
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* TIPS VIEW */
+  .tips-section { padding: 16px 16px 100px; }
+  .tips-section h2 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 4px; }
+  .tips-section > p { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .tip-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .tip-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .tip-card-body {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #444;
+  }
+  .tip-card-km {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .tag-red { background: #fee2e2; color: var(--red); }
+  .tag-gold { background: #fef3c7; color: #92400e; }
+  .tag-blue { background: #dbeafe; color: var(--blue); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 16px;
+  }
+</style>
+</head>
+<body>
+
+<div id="view-plan" class="view active">
+
+<header>
+  <div class="header-badge">Business Mandarin · 30 Days</div>
+  <h1>Your Personal <span>普通话</span> Coach</h1>
+  <p>Beginner · Business & Clients · 30 min/day</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-val" id="completed-count">0</div>
+    <div class="stat-label">Days Done</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" id="vocab-count">0</div>
+    <div class="stat-label">Words Learned</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val" id="streak-count">0</div>
+    <div class="stat-label">Day Streak</div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Overall Progress</span>
+    <span id="progress-pct">0%</span>
+  </div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- WEEK TABS -->
+<div class="week-tabs">
+  <button class="week-tab active" onclick="showWeek(1,this)">Week 1</button>
+  <button class="week-tab" onclick="showWeek(2,this)">Week 2</button>
+  <button class="week-tab" onclick="showWeek(3,this)">Week 3</button>
+  <button class="week-tab" onclick="showWeek(4,this)">Week 4</button>
+</div>
+
+<!-- WEEK 1 -->
+<div id="week-1">
+<div class="week-info" data-char="您好">
+  <div class="week-theme">Week 1 Theme</div>
+  <div class="week-title">Greetings & First Impressions</div>
+  <div class="week-desc">Master professional introductions, business card etiquette phrases, and essential polite expressions for meeting clients.</div>
+</div>
+
+<div class="days-list">
+
+<!-- DAY 1 -->
+<div class="day-card" id="day-1">
+  <div class="day-header" onclick="toggleDay('day-1')">
+    <div class="day-header-left">
+      <div class="day-num">01</div>
+      <div class="day-info">
+        <div class="day-title">Hello & Nice to Meet You</div>
+        <div class="day-subtitle">您好 · Nín hǎo</div>
+      </div>
+    </div>
+    <div class="day-meta">
+      <div class="day-time">30 min</div>
+      <div class="day-toggle">▼</div>
+    </div>
+  </div>
+  <div class="day-body">
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row">
+          <div class="vocab-zh">您好</div>
+          <div class="vocab-pinyin">Nín hǎo</div>
+        </div>
+        <div class="vocab-en">Hello (formal/respectful)</div>
+        <div class="vocab-km">ជំរាបសួរ (ផ្លូវការ)</div>
+        <div class="vocab-example">您好，很高兴认识您。</div>
+        <div class="vocab-example-en">Hello, nice to meet you.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row">
+          <div class="vocab-zh">我叫</div>
+          <div class="vocab-pinyin">Wǒ jiào</div>
+        </div>
+        <div class="vocab-en">My name is...</div>
+        <div class="vocab-km">ខ្ញុំឈ្មោះ...</div>
+        <div class="vocab-example">我叫 [your name]。</div>
+        <div class="vocab-example-en">My name is [your name].</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row">
+          <div class="vocab-zh">很高兴</div>
+          <div class="vocab-pinyin">Hěn gāoxìng</div>
+        </div>
+        <div class="vocab-en">Very pleased / Happy to</div>
+        <div class="vocab-km">រីករាយណាស់</div>
+        <div class="vocab-example">很高兴认识您！</div>
+        <div class="vocab-example-en">Very pleased to meet you!</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-grammar">📖</div>
+        <div class="section-title">Grammar Focus</div>
+        <div class="section-time">8 min</div>
+      </div>
+      <div class="grammar-box">
+        <div class="grammar-rule">Pattern: Subject + 是 (shì) + Noun</div>
+        <div class="grammar-pattern">我是 [job/company]。</div>
+        <div>Wǒ shì [job/company]. = I am [job/company].</div>
+        <div class="grammar-km">ខ្ញុំជា... — ប្រើ 是 (shì) ដើម្បីពណ៌នាអ្វីដែលអ្នកជា</div>
+        <div style="margin-top:8px; font-size:12px; color:#555;">
+          <strong>Example:</strong> 我是经理。(Wǒ shì jīnglǐ.) = I am a manager.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-speak">🎤</div>
+        <div class="section-title">Speaking Practice</div>
+        <div class="section-time">7 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Say out loud 5 times: "您好，我叫___，很高兴认识您！"</div>
+          <div class="task-km">និយាយឱ្យបានដង ៥: ជំរាបសួរ ខ្ញុំឈ្មោះ___ រីករាយណាស់ដែលបានស្គាល់</div>
+          <div class="task-zh">Nín hǎo, wǒ jiào ___, hěn gāoxìng rènshi nín!</div>
+        </div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Practice bowing slightly as you say 您好 — body language matters in Chinese business culture.</div>
+          <div class="task-km">ហ្វឹកហ្វឺនការឱ្យដងក ខណៈពេលនិយាយ 您好 — ភាសាកាយវិការសំខាន់ក្នុងវប្បធម៌ជំនួញចិន</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-listen">👂</div>
+        <div class="section-title">Listening Task</div>
+        <div class="section-time">5 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Search YouTube: "Chinese business greeting 您好" — listen to 3 short clips and repeat what you hear.</div>
+          <div class="task-km">ស្វែងរកនៅ YouTube: "Chinese business greeting 您好" — ស្តាប់ clip ខ្លីៗ ៣ ហើយនិយាយតាម</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="complete-btn" onclick="markComplete('day-1', 3)">✓ Mark Day 1 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-card" id="day-2">
+  <div class="day-header" onclick="toggleDay('day-2')">
+    <div class="day-header-left">
+      <div class="day-num">02</div>
+      <div class="day-info">
+        <div class="day-title">Introductions & Job Titles</div>
+        <div class="day-subtitle">介绍 · Jièshào</div>
+      </div>
+    </div>
+    <div class="day-meta">
+      <div class="day-time">30 min</div>
+      <div class="day-toggle">▼</div>
+    </div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">公司</div><div class="vocab-pinyin">gōngsī</div></div>
+        <div class="vocab-en">Company</div>
+        <div class="vocab-km">ក្រុមហ៊ុន</div>
+        <div class="vocab-example">我在[公司名]公司工作。</div>
+        <div class="vocab-example-en">I work at [Company name].</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">经理</div><div class="vocab-pinyin">jīnglǐ</div></div>
+        <div class="vocab-en">Manager</div>
+        <div class="vocab-km">អ្នកគ្រប់គ្រង</div>
+        <div class="vocab-example">我是销售经理。</div>
+        <div class="vocab-example-en">I am a sales manager.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">负责</div><div class="vocab-pinyin">fùzé</div></div>
+        <div class="vocab-en">In charge of / Responsible for</div>
+        <div class="vocab-km">ទទួលខុសត្រូវ</div>
+        <div class="vocab-example">我负责市场营销。</div>
+        <div class="vocab-example-en">I am responsible for marketing.</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-speak">🎤</div>
+        <div class="section-title">Speaking Practice</div>
+        <div class="section-time">12 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Build YOUR introduction: "我叫___，我在___公司工作，我是___，我负责___。"</div>
+          <div class="task-km">បង្កើតការណែនាំខ្លួនឯងរបស់អ្នក — ហ្វឹកហ្វឺន ១០ ដង</div>
+          <div class="task-pinyin">Wǒ jiào ___, wǒ zài ___ gōngsī gōngzuò, wǒ shì ___, wǒ fùzé ___.</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-review">🔁</div>
+        <div class="section-title">Review</div>
+        <div class="section-time">8 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div class="task-text">Write Day 1 vocab (您好, 我叫, 很高兴) from memory 3 times each. Check your notes.</div>
+        <div class="task-km">សរសេរពាក្យពី ថ្ងៃទី ១ ពីការចងចាំ ៣ ដង</div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-2', 3)">✓ Mark Day 2 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-card" id="day-3">
+  <div class="day-header" onclick="toggleDay('day-3')">
+    <div class="day-header-left">
+      <div class="day-num">03</div>
+      <div class="day-info">
+        <div class="day-title">Business Card Exchange</div>
+        <div class="day-subtitle">名片 · Míngpiàn</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">名片</div><div class="vocab-pinyin">míngpiàn</div></div>
+        <div class="vocab-en">Business card</div>
+        <div class="vocab-km">កាតនាម</div>
+        <div class="vocab-example">这是我的名片，请多关照。</div>
+        <div class="vocab-example-en">Here is my business card, please take care of me. (set phrase)</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">请多关照</div><div class="vocab-pinyin">Qǐng duō guānzhào</div></div>
+        <div class="vocab-en">Please take care of me / Look forward to working with you</div>
+        <div class="vocab-km">សូមថែទាំខ្ញុំ (ឃ្លាប្រើប្រាស់ក្នុងជំនួញ)</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">谢谢</div><div class="vocab-pinyin">Xièxiè</div></div>
+        <div class="vocab-en">Thank you</div>
+        <div class="vocab-km">អរគុណ</div>
+        <div class="vocab-example">谢谢您的名片！</div>
+        <div class="vocab-example-en">Thank you for your business card!</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-grammar">📖</div>
+        <div class="section-title">Culture Note</div>
+        <div class="section-time">5 min</div>
+      </div>
+      <div class="grammar-box">
+        <div class="grammar-rule">🏮 Business Card Etiquette</div>
+        <div style="font-size:13px; line-height:1.6;">Always give and receive cards with <strong>both hands</strong>. Look at it carefully before putting it away — never write on it or stuff it in your pocket. Say 请多关照 when handing yours over.</div>
+        <div class="grammar-km">ផ្តល់និងទទួលកាតដោយដៃទាំងពីរ — ការសំខាន់ណាស់ក្នុងជំនួញចិន</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-speak">🎤</div>
+        <div class="section-title">Speaking Practice</div>
+        <div class="section-time">15 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Role-play: Hold any card, bow slightly, say "这是我的名片，请多关照！" — repeat 8 times.</div>
+          <div class="task-km">លេងតួ: កាន់កាតណាមួយ ឱ្យដងក ហើយនិយាយ... ០៨ ដង</div>
+        </div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-3', 3)">✓ Mark Day 3 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-card" id="day-4">
+  <div class="day-header" onclick="toggleDay('day-4')">
+    <div class="day-header-left">
+      <div class="day-num">04</div>
+      <div class="day-info">
+        <div class="day-title">Numbers & Dates</div>
+        <div class="day-subtitle">数字 · Shùzì</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary — Numbers 1–10</div>
+        <div class="section-time">12 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row">
+          <div style="font-family:'Noto Serif SC',serif; font-size:15px; color:var(--red)">一 二 三 四 五</div>
+        </div>
+        <div class="vocab-pinyin">yī · èr · sān · sì · wǔ</div>
+        <div class="vocab-en">1 · 2 · 3 · 4 · 5</div>
+        <div class="vocab-km">មួយ · ពីរ · បី · បួន · ប្រាំ</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row">
+          <div style="font-family:'Noto Serif SC',serif; font-size:15px; color:var(--red)">六 七 八 九 十</div>
+        </div>
+        <div class="vocab-pinyin">liù · qī · bā · jiǔ · shí</div>
+        <div class="vocab-en">6 · 7 · 8 · 9 · 10</div>
+        <div class="vocab-km">ប្រាំមួយ · ប្រាំពីរ · ប្រាំបី · ប្រាំបួន · ដប់</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">万</div><div class="vocab-pinyin">wàn</div></div>
+        <div class="vocab-en">10,000 — key unit in Chinese business pricing!</div>
+        <div class="vocab-km">ម៉ឺន — ឯកតាសំខាន់ក្នុងការកំណត់តម្លៃជំនួញចិន</div>
+        <div class="vocab-example">五万元 = 50,000 yuan</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-speak">🎤</div>
+        <div class="section-title">Practice</div>
+        <div class="section-time">18 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div class="task-text">Count 1–10 aloud, then backward. Then count by 10s: 十、二十、三十... up to 一百 (yībǎi = 100).</div>
+        <div class="task-km">រាប់ ១ ដល់ ១០ ជាសំឡេង ហើយរាប់ថយក្រោយ</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div class="task-text">Practice saying prices: 二万五 (25,000) · 十万 (100,000) · 三百万 (3 million)</div>
+        <div class="task-km">ហ្វឹកហ្វឺននិយាយតម្លៃជំនួញ</div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-4', 3)">✓ Mark Day 4 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 5 -->
+<div class="day-card" id="day-5">
+  <div class="day-header" onclick="toggleDay('day-5')">
+    <div class="day-header-left">
+      <div class="day-num">05</div>
+      <div class="day-info">
+        <div class="day-title">Scheduling Meetings</div>
+        <div class="day-subtitle">会议 · Huìyì</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">开会</div><div class="vocab-pinyin">kāi huì</div></div>
+        <div class="vocab-en">To have a meeting</div>
+        <div class="vocab-km">ប្រជុំ</div>
+        <div class="vocab-example">我们明天开会，可以吗？</div>
+        <div class="vocab-example-en">Can we have a meeting tomorrow?</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">方便</div><div class="vocab-pinyin">fāngbiàn</div></div>
+        <div class="vocab-en">Convenient</div>
+        <div class="vocab-km">ងាយស្រួល/ទំនេរ</div>
+        <div class="vocab-example">您什么时候方便？</div>
+        <div class="vocab-example-en">When is it convenient for you?</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">确认</div><div class="vocab-pinyin">quèrèn</div></div>
+        <div class="vocab-en">Confirm</div>
+        <div class="vocab-km">បញ្ជាក់</div>
+        <div class="vocab-example">请确认一下时间。</div>
+        <div class="vocab-example-en">Please confirm the time.</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-speak">🎤</div>
+        <div class="section-title">Speaking Practice</div>
+        <div class="section-time">20 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Practice this scheduling dialogue out loud:</div>
+          <div class="task-zh">A: 您好，我们可以下周开会吗？<br>B: 可以，您什么时候方便？<br>A: 周三上午十点，可以吗？<br>B: 没问题，我确认一下。</div>
+          <div class="task-pinyin">A: Nín hǎo, wǒmen kěyǐ xià zhōu kāi huì ma? / B: Kěyǐ, nín shénme shíhòu fāngbiàn? / A: Zhōusān shàngwǔ shí diǎn, kěyǐ ma? / B: Méi wèntí, wǒ quèrèn yīxià.</div>
+        </div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-5', 3)">✓ Mark Day 5 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 6 -->
+<div class="day-card" id="day-6">
+  <div class="day-header" onclick="toggleDay('day-6')">
+    <div class="day-header-left">
+      <div class="day-num">06</div>
+      <div class="day-info">
+        <div class="day-title">Polite Requests & Offers</div>
+        <div class="day-subtitle">请 · Qǐng</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-vocab">📚</div>
+        <div class="section-title">Vocabulary</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">请坐</div><div class="vocab-pinyin">Qǐng zuò</div></div>
+        <div class="vocab-en">Please sit down</div>
+        <div class="vocab-km">សូមអង្គុយ</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">请喝茶</div><div class="vocab-pinyin">Qǐng hē chá</div></div>
+        <div class="vocab-en">Please have some tea</div>
+        <div class="vocab-km">សូមផឹកតែ</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">不好意思</div><div class="vocab-pinyin">Bù hǎo yìsi</div></div>
+        <div class="vocab-en">Excuse me / Sorry to bother you</div>
+        <div class="vocab-km">សុំទោស / អ្វីម្ដែងខ្ញុំ</div>
+        <div class="vocab-example">不好意思，请问您贵姓？</div>
+        <div class="vocab-example-en">Excuse me, may I ask your surname?</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-grammar">📖</div>
+        <div class="section-title">Grammar: Using 请 (Qǐng)</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="grammar-box">
+        <div class="grammar-rule">请 + Verb = Polite Command / Request</div>
+        <div class="grammar-pattern">请 + [action] = Please [do action]</div>
+        <div style="font-size:12px; margin-top:6px;">请坐 = Please sit · 请看 = Please look · 请稍等 = Please wait a moment</div>
+        <div class="grammar-km">ប្រើ 请 (Qǐng) មុនកិរិយាស័ព្ទ ដើម្បីសួររ៉ែករបស់ ដោយសុភាព</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon icon-review">🔁</div>
+        <div class="section-title">Review Week So Far</div>
+        <div class="section-time">10 min</div>
+      </div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div class="task-text">Without looking at notes, say aloud: your full introduction + schedule a meeting + offer tea. Chain it together as one smooth conversation.</div>
+        <div class="task-km">ដោយគ្មានកំណត់ត្រា — ធ្វើការណែនាំខ្លួន + កំណត់ប្រជុំ + ផ្តល់តែ — ជាការសន្ទនាមួយ</div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-6', 3)">✓ Mark Day 6 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 7 — MINI TEST -->
+<div class="day-card test-day" id="day-7">
+  <div class="day-header" onclick="toggleDay('day-7')">
+    <div class="day-header-left">
+      <div class="day-num">07</div>
+      <div class="day-info">
+        <div class="day-title">🎯 Week 1 Mini Test</div>
+        <div class="day-subtitle">测验 · Cèyàn</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="test-q">
+      <div class="test-q-num">Question 1 — Speaking</div>
+      <div class="test-q-text">Introduce yourself fully in Mandarin: name, company, role, and what you're responsible for. No notes!</div>
+      <button class="reveal-btn" onclick="revealAnswer('a1')">Show Model Answer</button>
+      <div class="test-answer" id="a1">我叫___，我在___公司工作。我是___，我负责___。很高兴认识您！<br><em>Wǒ jiào ___, wǒ zài ___ gōngsī gōngzuò. Wǒ shì ___, wǒ fùzé ___. Hěn gāoxìng rènshi nín!</em></div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Question 2 — Translate to Mandarin</div>
+      <div class="test-q-text">"When is it convenient for you to meet?" + "Please confirm the time."</div>
+      <button class="reveal-btn" onclick="revealAnswer('a2')">Show Answer</button>
+      <div class="test-answer" id="a2">您什么时候方便开会？(Nín shénme shíhòu fāngbiàn kāi huì?)<br>请确认一下时间。(Qǐng quèrèn yīxià shíjiān.)</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Question 3 — Numbers</div>
+      <div class="test-q-text">Say these prices aloud in Mandarin: 35,000 · 200,000 · 1,500,000</div>
+      <button class="reveal-btn" onclick="revealAnswer('a3')">Show Answer</button>
+      <div class="test-answer" id="a3">三万五 (sān wàn wǔ) · 二十万 (èrshí wàn) · 一百五十万 (yī bǎi wǔshí wàn)</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Question 4 — Culture</div>
+      <div class="test-q-text">What do you say AND do when exchanging business cards in Chinese business culture?</div>
+      <button class="reveal-btn" onclick="revealAnswer('a4')">Show Answer</button>
+      <div class="test-answer" id="a4">Use both hands. Say "这是我的名片，请多关照！" Look at the card carefully before putting it away respectfully. Never write on it.</div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-7', 3)">✓ Complete Week 1 Test</button>
+  </div>
+</div>
+
+</div><!-- end days-list week 1 -->
+</div><!-- end week-1 -->
+
+<!-- WEEK 2 -->
+<div id="week-2" style="display:none">
+<div class="week-info" data-char="合作">
+  <div class="week-theme">Week 2 Theme</div>
+  <div class="week-title">Negotiations & Proposals</div>
+  <div class="week-desc">Learn how to discuss pricing, propose partnerships, express agreement/disagreement politely, and handle client objections.</div>
+</div>
+<div class="days-list">
+
+<!-- DAY 8 -->
+<div class="day-card" id="day-8">
+  <div class="day-header" onclick="toggleDay('day-8')">
+    <div class="day-header-left">
+      <div class="day-num">08</div>
+      <div class="day-info">
+        <div class="day-title">Prices & Budgets</div>
+        <div class="day-subtitle">价格 · Jiàgé</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">价格</div><div class="vocab-pinyin">jiàgé</div></div>
+        <div class="vocab-en">Price</div><div class="vocab-km">តម្លៃ</div>
+        <div class="vocab-example">这个价格太高了。</div>
+        <div class="vocab-example-en">This price is too high.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">预算</div><div class="vocab-pinyin">yùsuàn</div></div>
+        <div class="vocab-en">Budget</div><div class="vocab-km">ថវិកា</div>
+        <div class="vocab-example">我们的预算是___万元。</div>
+        <div class="vocab-example-en">Our budget is ___ ten-thousand yuan.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">优惠</div><div class="vocab-pinyin">yōuhuì</div></div>
+        <div class="vocab-en">Discount / Special offer</div><div class="vocab-km">បញ្ចុះតម្លៃ</div>
+        <div class="vocab-example">有没有优惠？</div>
+        <div class="vocab-example-en">Is there any discount?</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-grammar">📖</div><div class="section-title">Grammar: Too / Very — 太...了</div><div class="section-time">8 min</div></div>
+      <div class="grammar-box">
+        <div class="grammar-rule">太 (tài) + Adj + 了 = Too [adjective]</div>
+        <div class="grammar-pattern">太贵了！ / 太便宜了！</div>
+        <div>Tài guì le! = Too expensive! / Tài piányí le! = Too cheap!</div>
+        <div class="grammar-km">ប្រើ 太...了 ដើម្បីនិយាយថា "ហួស..." ឧ. 太贵了 = ថ្លៃពេក</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking</div><div class="section-time">12 min</div></div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Practice negotiation lines: "这个价格太高了，我们的预算只有___。有没有优惠？"</div>
+          <div class="task-pinyin">Zhège jiàgé tài gāo le, wǒmen de yùsuàn zhǐ yǒu ___. Yǒu méiyǒu yōuhuì?</div>
+          <div class="task-km">ហ្វឹកហ្វឺន: "តម្លៃនេះថ្លៃពេក ថវិការបស់ខ្ញុំគ្រាន់តែ___ មានបញ្ចុះតម្លៃទេ?"</div>
+        </div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-8', 3)">✓ Mark Day 8 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 9 -->
+<div class="day-card" id="day-9">
+  <div class="day-header" onclick="toggleDay('day-9')">
+    <div class="day-header-left">
+      <div class="day-num">09</div>
+      <div class="day-info">
+        <div class="day-title">Agreement & Disagreement</div>
+        <div class="day-subtitle">同意 · Tóngyì</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">12 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">同意</div><div class="vocab-pinyin">tóngyì</div></div>
+        <div class="vocab-en">Agree</div><div class="vocab-km">យល់ព្រម</div>
+        <div class="vocab-example">我同意这个方案。</div>
+        <div class="vocab-example-en">I agree with this proposal.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">考虑一下</div><div class="vocab-pinyin">kǎolǜ yīxià</div></div>
+        <div class="vocab-en">Let me think about it / Consider it</div><div class="vocab-km">ខ្ញុំនឹងពិចារណា</div>
+        <div class="vocab-example">我需要考虑一下。</div>
+        <div class="vocab-example-en">I need to think about it.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">不太方便</div><div class="vocab-pinyin">bù tài fāngbiàn</div></div>
+        <div class="vocab-en">Not quite convenient (polite "no")</div><div class="vocab-km">មិនសូវងាយស្រួល (ការប្រតិសេធដោយសុភាព)</div>
+        <div class="vocab-example">这个条件对我们不太方便。</div>
+        <div class="vocab-example-en">These terms are not quite convenient for us.</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking + Review</div><div class="section-time">18 min</div></div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div class="task-text">Role-play both sides: propose a price, agree, then disagree politely, then say you need to think about it. Switch roles.</div>
+        <div class="task-km">លេងតួ ២ ភាគី: ស្នើតម្លៃ យល់ព្រម បដិសេធដោយសុភាព ហើយនិយាយត្រូវការពិចារណា</div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-9', 3)">✓ Mark Day 9 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 10 -->
+<div class="day-card" id="day-10">
+  <div class="day-header" onclick="toggleDay('day-10')">
+    <div class="day-header-left">
+      <div class="day-num">10</div>
+      <div class="day-info">
+        <div class="day-title">Making Proposals</div>
+        <div class="day-subtitle">建议 · Jiànyì</div>
+      </div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">建议</div><div class="vocab-pinyin">jiànyì</div></div>
+        <div class="vocab-en">Suggestion / Propose</div><div class="vocab-km">ស្នើ / ផ្ដល់យោបល់</div>
+        <div class="vocab-example">我建议我们合作。</div>
+        <div class="vocab-example-en">I suggest we collaborate.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">合作</div><div class="vocab-pinyin">hézuò</div></div>
+        <div class="vocab-en">Cooperation / Partnership</div><div class="vocab-km">កិច្ចសហប្រតិបត្តិការ</div>
+        <div class="vocab-example">希望我们能长期合作。</div>
+        <div class="vocab-example-en">I hope we can cooperate long-term.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">互利共赢</div><div class="vocab-pinyin">hùlì gòng yíng</div></div>
+        <div class="vocab-en">Mutually beneficial / Win-win</div><div class="vocab-km">ផ្នែកសារប្រយោជន៍ដល់គ្នាទៅវិញទៅមក</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking</div><div class="section-time">20 min</div></div>
+      <div class="task-item">
+        <div class="task-bullet"></div>
+        <div>
+          <div class="task-text">Practice a mini pitch: "我建议我们合作。这对双方都互利共赢。希望我们能长期合作！"</div>
+          <div class="task-pinyin">Wǒ jiànyì wǒmen hézuò. Zhè duì shuāngfāng dōu hùlì gòng yíng. Xīwàng wǒmen néng chángqī hézuò!</div>
+          <div class="task-km">ហ្វឹកហ្វឺននិយាយពន្យល់ខ្លី: "ខ្ញុំស្នើឱ្យយើងសហការ វានឹងផ្ដល់ប្រយោជន៍ដល់ភាគីទាំងពីរ"</div>
+        </div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-10', 3)">✓ Mark Day 10 Complete</button>
+  </div>
+</div>
+
+<!-- DAYS 11-13 abbreviated -->
+<div class="day-card" id="day-11">
+  <div class="day-header" onclick="toggleDay('day-11')">
+    <div class="day-header-left"><div class="day-num">11</div>
+      <div class="day-info"><div class="day-title">Products & Services</div><div class="day-subtitle">产品 · Chǎnpǐn</div></div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">产品</div><div class="vocab-pinyin">chǎnpǐn</div></div>
+        <div class="vocab-en">Product</div><div class="vocab-km">ផលិតផល</div>
+        <div class="vocab-example">我们的产品质量很好。</div><div class="vocab-example-en">Our product quality is very good.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">服务</div><div class="vocab-pinyin">fúwù</div></div>
+        <div class="vocab-en">Service</div><div class="vocab-km">សេវាកម្ម</div>
+        <div class="vocab-example">我们提供优质服务。</div><div class="vocab-example-en">We provide quality service.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">优势</div><div class="vocab-pinyin">yōushì</div></div>
+        <div class="vocab-en">Advantage / Strength</div><div class="vocab-km">គុណសម្បត្តិ</div>
+        <div class="vocab-example">我们的优势是速度快。</div><div class="vocab-example-en">Our advantage is speed.</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking + Listening</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Describe YOUR company's product/service in Mandarin using today's vocabulary. Record yourself and listen back.</div><div class="task-km">ពណ៌នាផលិតផល/សេវាក្រុមហ៊ុនអ្នកជាភាសាចិន ថតសំឡេងហើយស្ដាប់</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-11', 3)">✓ Mark Day 11 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-12">
+  <div class="day-header" onclick="toggleDay('day-12')">
+    <div class="day-header-left"><div class="day-num">12</div>
+      <div class="day-info"><div class="day-title">Email & WeChat Phrases</div><div class="day-subtitle">邮件 · Yóujiàn</div></div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">您好，我是</div><div class="vocab-pinyin">Nín hǎo, wǒ shì</div></div>
+        <div class="vocab-en">Hello, I am... (email opener)</div><div class="vocab-km">ជំរាបសួរ ខ្ញុំជា... (ការចាប់ផ្ដើមមែ)</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">期待您的回复</div><div class="vocab-pinyin">Qīdài nín de huífù</div></div>
+        <div class="vocab-en">Looking forward to your reply</div><div class="vocab-km">រង់ចាំការឆ្លើយតបរបស់អ្នក</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">请查收</div><div class="vocab-pinyin">Qǐng chá shōu</div></div>
+        <div class="vocab-en">Please check / see attached</div><div class="vocab-km">សូមពិនិត្យ / ភ្ជាប់ជូន</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Writing Practice</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Write a 3-sentence WeChat message to a Chinese client: greeting → purpose → close. Use today's phrases.</div><div class="task-km">សរសេរសារ WeChat ៣ ប្រយោគ: ស្វាគមន៍ → គោលបំណង → បញ្ចប់</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-12', 3)">✓ Mark Day 12 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-13">
+  <div class="day-header" onclick="toggleDay('day-13')">
+    <div class="day-header-left"><div class="day-num">13</div>
+      <div class="day-info"><div class="day-title">Handling Objections</div><div class="day-subtitle">问题 · Wèntí</div></div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">没问题</div><div class="vocab-pinyin">méi wèntí</div></div>
+        <div class="vocab-en">No problem</div><div class="vocab-km">គ្មានបញ្ហា</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">放心</div><div class="vocab-pinyin">fàngxīn</div></div>
+        <div class="vocab-en">Don't worry / Rest assured</div><div class="vocab-km">កុំបារម្ភ</div>
+        <div class="vocab-example">请放心，我们会处理好。</div><div class="vocab-example-en">Please rest assured, we will handle it well.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-row"><div class="vocab-zh">解决</div><div class="vocab-pinyin">jiějué</div></div>
+        <div class="vocab-en">Solve / Resolve</div><div class="vocab-km">ដោះស្រាយ</div>
+        <div class="vocab-example">我们会尽快解决这个问题。</div><div class="vocab-example-en">We will resolve this issue as soon as possible.</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Practice: Client complains → you respond with 放心 + 没问题 + 我们会尽快解决。 Do this 6 times with different complaints.</div><div class="task-km">ហ្វឹកហ្វឺន: អតិថិជនត្អូញ → អ្នកឆ្លើយតប → ដោះស្រាយ ៦ ដង</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-13', 3)">✓ Mark Day 13 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 14 MINI TEST -->
+<div class="day-card test-day" id="day-14">
+  <div class="day-header" onclick="toggleDay('day-14')">
+    <div class="day-header-left"><div class="day-num">14</div>
+      <div class="day-info"><div class="day-title">🎯 Week 2 Mini Test</div><div class="day-subtitle">测验 · Cèyàn</div></div>
+    </div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="test-q">
+      <div class="test-q-num">Q1 — Role Play</div>
+      <div class="test-q-text">A client says the price is too high. Respond politely: acknowledge, offer to consider, and reassure them.</div>
+      <button class="reveal-btn" onclick="revealAnswer('b1')">Model Answer</button>
+      <div class="test-answer" id="b1">您好，我理解。我需要考虑一下，但请放心，我们会尽力找到对双方都互利的方案。(Nín hǎo, wǒ lǐjiě. Wǒ xūyào kǎolǜ yīxià, dàn qǐng fàngxīn, wǒmen huì jìnlì zhǎodào duì shuāngfāng dōu hùlì de fāng'àn.)</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Q2 — Translate</div>
+      <div class="test-q-text">Write a 2-sentence WeChat opener to a new Chinese client you met last week.</div>
+      <button class="reveal-btn" onclick="revealAnswer('b2')">Model Answer</button>
+      <div class="test-answer" id="b2">您好！我是上周认识您的___。很高兴能保持联系，期待我们的合作！(Nín hǎo! Wǒ shì shàng zhōu rènshi nín de ___. Hěn gāoxìng néng bǎochí liánxì, qīdài wǒmen de hézuò!)</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Q3 — Win-Win Pitch</div>
+      <div class="test-q-text">Say aloud: "I suggest we cooperate. Our product advantage is ___. This is mutually beneficial."</div>
+      <button class="reveal-btn" onclick="revealAnswer('b3')">Model Answer</button>
+      <div class="test-answer" id="b3">我建议我们合作。我们的产品优势是___。这对双方都互利共赢。(Wǒ jiànyì wǒmen hézuò. Wǒmen de chǎnpǐn yōushì shì ___. Zhè duì shuāngfāng dōu hùlì gòng yíng.)</div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-14', 3)">✓ Complete Week 2 Test</button>
+  </div>
+</div>
+
+</div></div><!-- end week 2 -->
+
+<!-- WEEK 3 -->
+<div id="week-3" style="display:none">
+<div class="week-info" data-char="谢谢">
+  <div class="week-theme">Week 3 Theme</div>
+  <div class="week-title">Dining, Relationship Building & Toasts</div>
+  <div class="week-desc">Master business dinners, toasting etiquette (干杯!), expressing gratitude, and small talk that builds guānxi (关系 — relationships).</div>
+</div>
+<div class="days-list">
+<div class="day-card" id="day-15">
+  <div class="day-header" onclick="toggleDay('day-15')">
+    <div class="day-header-left"><div class="day-num">15</div><div class="day-info"><div class="day-title">Business Dining Phrases</div><div class="day-subtitle">请客 · Qǐngkè</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">请客</div><div class="vocab-pinyin">qǐngkè</div></div><div class="vocab-en">To treat someone to a meal</div><div class="vocab-km">ចេញថ្លៃអាហារ</div><div class="vocab-example">今天我请客！</div><div class="vocab-example-en">Today it's my treat!</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">干杯</div><div class="vocab-pinyin">gān bēi</div></div><div class="vocab-en">Cheers! (lit. dry cup)</div><div class="vocab-km">ជល់ (ជូនពរ)</div><div class="vocab-example">为我们的合作干杯！</div><div class="vocab-example-en">Cheers to our cooperation!</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">慢慢吃</div><div class="vocab-pinyin">màn man chī</div></div><div class="vocab-en">Enjoy your meal (lit. eat slowly)</div><div class="vocab-km">召ញ៉ាំអាហារ (ញ៉ាំដោយសុខ)</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice Toast</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div><div class="task-text">Memorize and deliver this business toast: "为我们的友谊和合作干杯！祝大家身体健康，生意兴隆！干杯！"</div><div class="task-pinyin">Wèi wǒmen de yǒuyì hé hézuò gān bēi! Zhù dàjiā shēntǐ jiànkāng, shēngyì xīnglóng! Gān bēi!</div><div class="task-km">ចំណាំ: "ជល់ដើម្បីមិត្តភាព និងកិច្ចសហប្រតិបត្តិការ! អរព្រះគុណ! ជួបសុខភាពល្អ ជំនួញចម្រើន!"</div></div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-15', 3)">✓ Mark Day 15 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-16">
+  <div class="day-header" onclick="toggleDay('day-16')">
+    <div class="day-header-left"><div class="day-num">16</div><div class="day-info"><div class="day-title">Small Talk & Compliments</div><div class="day-subtitle">聊天 · Liáotiān</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">您的中文很好</div><div class="vocab-pinyin">Nín de Zhōngwén hěn hǎo</div></div><div class="vocab-en">Your Chinese is very good</div><div class="vocab-km">ភាសាចិនរបស់អ្នកល្អណាស់</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">哪里哪里</div><div class="vocab-pinyin">Nǎlǐ nǎlǐ</div></div><div class="vocab-en">You're too kind (humble response to compliment)</div><div class="vocab-km">អ្នកសុភាពណាស់ (ការឆ្លើយតបដោយបន្ទាប)</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">关系</div><div class="vocab-pinyin">guānxi</div></div><div class="vocab-en">Relationship / Connection (key concept!)</div><div class="vocab-km">ទំនាក់ទំនង (គំនិតសំខាន់ក្នុងជំនួញចិន!)</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-grammar">📖</div><div class="section-title">Culture Note: 关系 (Guānxi)</div><div class="section-time">10 min</div></div>
+      <div class="grammar-box">
+        <div class="grammar-rule">🏮 Guānxi — The Foundation of Chinese Business</div>
+        <div style="font-size:13px; line-height:1.7">关系 means relationship/connections. In Chinese business, trust (信任 xìnrèn) comes FIRST before deals. Invest in meals, small talk, and genuine interest in your client. Speaking even basic Mandarin shows enormous respect and builds 关系 faster than anything else.</div>
+        <div class="grammar-km">ទំនាក់ទំនងជំនួញចិន: ទំនុកចិត្ត (信任) មុនជំនួញ — ការនិយាយភាសាចិនបង្ហាញការគោរពយ៉ាងខ្លាំង</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice</div><div class="section-time">10 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Practice: Client says "您的中文很好!" → You respond "哪里哪里，我还在学习。" (I'm still learning.) Repeat with genuine warmth.</div><div class="task-km">ហ្វឹកហ្វឺន: ឆ្លើយតបចំពោះការសរសើរ ដោយបន្ទាប់ខ្លួន</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-16', 3)">✓ Mark Day 16 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-17">
+  <div class="day-header" onclick="toggleDay('day-17')">
+    <div class="day-header-left"><div class="day-num">17</div><div class="day-info"><div class="day-title">Follow Up & Thank You</div><div class="day-subtitle">感谢 · Gǎnxiè</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">感谢</div><div class="vocab-pinyin">gǎnxiè</div></div><div class="vocab-en">Thank you / Grateful (formal)</div><div class="vocab-km">អរគុណ (ផ្លូវការ)</div><div class="vocab-example">非常感谢您的支持！</div><div class="vocab-example-en">Thank you very much for your support!</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">保持联系</div><div class="vocab-pinyin">bǎochí liánxì</div></div><div class="vocab-en">Keep in touch</div><div class="vocab-km">ទំនាក់ទំនងគ្នា</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">下次</div><div class="vocab-pinyin">xià cì</div></div><div class="vocab-en">Next time</div><div class="vocab-km">លើកក្រោយ</div><div class="vocab-example">下次我请客！</div><div class="vocab-example-en">Next time it's my treat!</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Speaking + Writing</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Write a post-meeting WeChat thank-you note (3 sentences): thank them → reference the meeting → express hope for future cooperation.</div><div class="task-km">សរសេរសារអរគុណ WeChat ក្រោយប្រជុំ ៣ ប្រយោគ</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-17', 3)">✓ Mark Day 17 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-18">
+  <div class="day-header" onclick="toggleDay('day-18')">
+    <div class="day-header-left"><div class="day-num">18</div><div class="day-info"><div class="day-title">Expressing Urgency & Deadlines</div><div class="day-subtitle">截止日期 · Jiézhǐ rìqī</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">尽快</div><div class="vocab-pinyin">jǐn kuài</div></div><div class="vocab-en">As soon as possible (ASAP)</div><div class="vocab-km">ឱ្យបានឆាប់</div><div class="vocab-example">请尽快回复。</div><div class="vocab-example-en">Please reply ASAP.</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">截止日期</div><div class="vocab-pinyin">jiézhǐ rìqī</div></div><div class="vocab-en">Deadline</div><div class="vocab-km">ថ្ងៃផុតកំណត់</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">紧急</div><div class="vocab-pinyin">jǐnjí</div></div><div class="vocab-en">Urgent</div><div class="vocab-km">បន្ទាន់</div><div class="vocab-example">这件事很紧急，请优先处理。</div><div class="vocab-example-en">This matter is urgent, please prioritize it.</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Write 3 different "urgent" messages to a Chinese client — varying the level of urgency from mild to very urgent, using today's words.</div><div class="task-km">សរសេរ "សារបន្ទាន់" ៣ ខុសៗគ្នា ពីស្រាលទៅខ្លាំង</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-18', 3)">✓ Mark Day 18 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-19">
+  <div class="day-header" onclick="toggleDay('day-19')">
+    <div class="day-header-left"><div class="day-num">19</div><div class="day-info"><div class="day-title">Tones Deep Dive</div><div class="day-subtitle">声调 · Shēngdiào</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-grammar">📖</div><div class="section-title">The 4 Tones</div><div class="section-time">15 min</div></div>
+      <div class="grammar-box">
+        <div class="grammar-rule">Mandarin Has 4 Tones + 1 Neutral</div>
+        <div style="font-size:13px; line-height:2; margin-top:6px">
+          1️⃣ <strong>mā</strong> (flat, high) — 妈 mother<br>
+          2️⃣ <strong>má</strong> (rising) — 麻 hemp<br>
+          3️⃣ <strong>mǎ</strong> (dip then rise) — 马 horse<br>
+          4️⃣ <strong>mà</strong> (falling, sharp) — 骂 scold<br>
+          ⓪ <strong>ma</strong> (neutral) — 吗 question particle
+        </div>
+        <div class="grammar-km">ភាសាចិនមាន ៤ សំឡេង + ១ សំឡេងអព្យាក្រឹត — ត្រូវបែងចែកឱ្យបានត្រឹមត្រូវ!</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Tone Practice</div><div class="section-time">15 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Say these business words focusing on getting tones right: 价格 (4-2), 合作 (2-4), 公司 (1-1), 谢谢 (4-4), 没问题 (2-4-2).</div><div class="task-km">ហ្វឹកហ្វឺនសំឡេងនៃពាក្យជំនួញ: 价格·合作·公司·谢谢·没问题</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-19', 3)">✓ Mark Day 19 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-20">
+  <div class="day-header" onclick="toggleDay('day-20')">
+    <div class="day-header-left"><div class="day-num">20</div><div class="day-info"><div class="day-title">Review Weeks 1–3</div><div class="day-subtitle">复习 · Fùxí</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-review">🔁</div><div class="section-title">Full Review</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Simulate a full business meeting scenario from start to finish: arrive → greet → exchange cards → propose partnership → discuss price → handle objection → close with toast → follow-up message. Use Mandarin throughout!</div><div class="task-km">ក្លែងធ្វើការប្រជុំជំនួញពេញលេញ ពីដើមដល់ចប់ ជាភាសាចិន</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-listen">👂</div><div class="section-title">Listening</div><div class="section-time">10 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Search YouTube: "Chinese business meeting Mandarin" — watch 10 minutes and note any phrases you recognize from your study.</div><div class="task-km">ស្វែងរក YouTube: "Chinese business meeting Mandarin" — ស្ដាប់ ១០ នាទី</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-20', 3)">✓ Mark Day 20 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 21 MINI TEST -->
+<div class="day-card test-day" id="day-21">
+  <div class="day-header" onclick="toggleDay('day-21')">
+    <div class="day-header-left"><div class="day-num">21</div><div class="day-info"><div class="day-title">🎯 Week 3 Mini Test</div><div class="day-subtitle">测验 · Cèyàn</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="test-q">
+      <div class="test-q-num">Q1 — Toast</div>
+      <div class="test-q-text">Deliver a full business dinner toast (3+ sentences). Include: friendship, cooperation, and good wishes.</div>
+      <button class="reveal-btn" onclick="revealAnswer('c1')">Model Answer</button>
+      <div class="test-answer" id="c1">为我们的友谊和合作干杯！祝大家身体健康，生意兴隆！希望我们能长期合作，互利共赢！干杯！</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Q2 — Urgent Email</div>
+      <div class="test-q-text">Write an urgent follow-up to a client: need their confirmation on pricing by the deadline.</div>
+      <button class="reveal-btn" onclick="revealAnswer('c2')">Model Answer</button>
+      <div class="test-answer" id="c2">您好！关于价格确认，这件事比较紧急，请尽快回复。截止日期是___，请查收并确认。期待您的回复，谢谢！</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Q3 — Culture</div>
+      <div class="test-q-text">Explain what 关系 (guānxi) means and give 2 ways you can build it with a Chinese client.</div>
+      <button class="reveal-btn" onclick="revealAnswer('c3')">Model Answer</button>
+      <div class="test-answer" id="c3">关系 = relationships/connections. Build it by: 1) Treating them to a meal (请客) and toasting (干杯), 2) Speaking Mandarin (even basic phrases show respect), 3) Sending warm follow-up messages, 4) Showing genuine interest beyond just business.</div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-21', 3)">✓ Complete Week 3 Test</button>
+  </div>
+</div>
+
+</div></div><!-- end week 3 -->
+
+<!-- WEEK 4 -->
+<div id="week-4" style="display:none">
+<div class="week-info" data-char="成功">
+  <div class="week-theme">Week 4 Theme</div>
+  <div class="week-title">Advanced Business & Fluency Sprint</div>
+  <div class="week-desc">Contracts, presentations, conference calls, and putting it all together for real client situations. Final test on Day 30.</div>
+</div>
+<div class="days-list">
+
+<div class="day-card" id="day-22">
+  <div class="day-header" onclick="toggleDay('day-22')">
+    <div class="day-header-left"><div class="day-num">22</div><div class="day-info"><div class="day-title">Contracts & Agreements</div><div class="day-subtitle">合同 · Hétong</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">合同</div><div class="vocab-pinyin">hétong</div></div><div class="vocab-en">Contract</div><div class="vocab-km">កិច្ចសន្យា</div><div class="vocab-example">我们需要签合同。</div><div class="vocab-example-en">We need to sign a contract.</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">签字</div><div class="vocab-pinyin">qiānzì</div></div><div class="vocab-en">Sign (a document)</div><div class="vocab-km">ចុះហត្ថលេខា</div><div class="vocab-example">请在这里签字。</div><div class="vocab-example-en">Please sign here.</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">条款</div><div class="vocab-pinyin">tiáokuǎn</div></div><div class="vocab-en">Terms / Clauses</div><div class="vocab-km">លក្ខខណ្ឌ</div><div class="vocab-example">请检查一下条款。</div><div class="vocab-example-en">Please check the terms.</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Role-play: You're closing a deal. Walk through: propose contract → review terms → ask them to sign → express celebration.</div><div class="task-km">លេងតួ: ចប់ជំនួញ → ស្នើកិច្ចសន្យា → ពិនិត្យ → ចុះហត្ថលេខា → អបអរ</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-22', 3)">✓ Mark Day 22 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-23">
+  <div class="day-header" onclick="toggleDay('day-23')">
+    <div class="day-header-left"><div class="day-num">23</div><div class="day-info"><div class="day-title">Conference Calls & Video Meetings</div><div class="day-subtitle">电话会议 · Diànhuà huìyì</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">听不清楚</div><div class="vocab-pinyin">tīng bù qīngchǔ</div></div><div class="vocab-en">Can't hear clearly</div><div class="vocab-km">ឮមិនច្បាស់</div><div class="vocab-example">不好意思，我听不清楚，可以再说一遍吗？</div><div class="vocab-example-en">Sorry, I can't hear clearly, can you say it again?</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">请稍等</div><div class="vocab-pinyin">Qǐng shāo děng</div></div><div class="vocab-en">Please wait a moment</div><div class="vocab-km">សូមរង់ចាំ</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">我的意思是</div><div class="vocab-pinyin">Wǒ de yìsi shì</div></div><div class="vocab-en">What I mean is...</div><div class="vocab-km">អ្វីដែលខ្ញុំចង់និយាយគឺ...</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Call a friend (or record yourself) and practice a 3-minute "call" opening: greet → state purpose → ask to clarify something → wrap up with 保持联系.</div><div class="task-km">ហ្វឹកហ្វឺន "ការហៅទូរស័ព្ទ" ៣ នាទី ជាភាសាចិន</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-23', 3)">✓ Mark Day 23 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-24">
+  <div class="day-header" onclick="toggleDay('day-24')">
+    <div class="day-header-left"><div class="day-num">24</div><div class="day-info"><div class="day-title">Presenting Data & Reports</div><div class="day-subtitle">报告 · Bàogào</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">增长</div><div class="vocab-pinyin">zēngzhǎng</div></div><div class="vocab-en">Growth / Increase</div><div class="vocab-km">កំណើន</div><div class="vocab-example">今年业绩增长了20%。</div><div class="vocab-example-en">This year's performance grew by 20%.</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">目标</div><div class="vocab-pinyin">mùbiāo</div></div><div class="vocab-en">Goal / Target</div><div class="vocab-km">គោលដៅ</div><div class="vocab-example">我们已经达到目标。</div><div class="vocab-example-en">We have reached the target.</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">下一步</div><div class="vocab-pinyin">xià yī bù</div></div><div class="vocab-en">Next step</div><div class="vocab-km">ជំហានបន្ទាប់</div><div class="vocab-example">下一步我们需要...</div><div class="vocab-example-en">The next step we need to...</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Mini Presentation</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Prepare a 1-minute Mandarin business update: "今年业绩增长了___。我们已经达到目标。下一步，我们计划___。"</div><div class="task-km">ត្រៀមការធ្វើបទបង្ហាញ ១ នាទី ជាភាសាចិន</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-24', 3)">✓ Mark Day 24 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-25">
+  <div class="day-header" onclick="toggleDay('day-25')">
+    <div class="day-header-left"><div class="day-num">25</div><div class="day-info"><div class="day-title">Asking Questions Confidently</div><div class="day-subtitle">问 · Wèn</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-grammar">📖</div><div class="section-title">Question Structures</div><div class="section-time">12 min</div></div>
+      <div class="grammar-box">
+        <div class="grammar-rule">Key Question Patterns for Business</div>
+        <div style="font-size:13px; line-height:2; margin-top:6px">
+          <strong>什么时候</strong> (shénme shíhòu) = When?<br>
+          <strong>多少钱</strong> (duōshǎo qián) = How much?<br>
+          <strong>为什么</strong> (wèishéme) = Why?<br>
+          <strong>怎么样</strong> (zěnmeyàng) = How about / What do you think?<br>
+          <strong>可以吗</strong> (kěyǐ ma) = Is that okay / Can we?
+        </div>
+        <div class="grammar-km">ប្រព័ន្ធសំណួរសំខាន់ ៥ ក្នុងជំនួញ</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice</div><div class="section-time">18 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Use each question word in a business sentence. Example: "您什么时候方便开会？" Create 5 sentences — one per question word.</div><div class="task-km">ប្រើពាក្យសំណួរនីមួយៗ ក្នុងប្រយោគជំនួញ ១ ប្រយោគ × ៥</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-25', 3)">✓ Mark Day 25 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-26">
+  <div class="day-header" onclick="toggleDay('day-26')">
+    <div class="day-header-left"><div class="day-num">26</div><div class="day-info"><div class="day-title">Closing Deals & Celebrations</div><div class="day-subtitle">成交 · Chéngjiao</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">Vocabulary</div><div class="section-time">10 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">成交</div><div class="vocab-pinyin">chéngjiāo</div></div><div class="vocab-en">Deal done! / Closed!</div><div class="vocab-km">ព្រមព្រៀងហើយ!</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">祝贺</div><div class="vocab-pinyin">zhùhè</div></div><div class="vocab-en">Congratulations</div><div class="vocab-km">អបអរសាទរ</div><div class="vocab-example">祝贺我们合作愉快！</div><div class="vocab-example-en">Congratulations on our successful cooperation!</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">期待</div><div class="vocab-pinyin">qīdài</div></div><div class="vocab-en">Look forward to</div><div class="vocab-km">រង់ចាំ/ប្រាថ្នា</div><div class="vocab-example">期待下次合作！</div><div class="vocab-example-en">Looking forward to working together again!</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Full Deal Simulation</div><div class="section-time">20 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Do a full deal-closing simulation: negotiate → agree → 成交 → toast (干杯!) → congratulate → say farewell with 保持联系 and 期待下次合作.</div><div class="task-km">ធ្វើការក្លែងធ្វើ "ចប់ជំនួញ" ពេញលេញ</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-26', 3)">✓ Mark Day 26 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-27">
+  <div class="day-header" onclick="toggleDay('day-27')">
+    <div class="day-header-left"><div class="day-num">27</div><div class="day-info"><div class="day-title">Chinese Business Culture Deep Dive</div><div class="day-subtitle">文化 · Wénhuà</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-grammar">📖</div><div class="section-title">5 Key Business Culture Rules</div><div class="section-time">15 min</div></div>
+      <div class="grammar-box">
+        <div class="grammar-rule">🏮 Essential Chinese Business Culture</div>
+        <div style="font-size:12px; line-height:2; margin-top:6px">
+          1. <strong>面子 (miànzi)</strong> — "Face"/Reputation: Never embarrass someone publicly. Always let them save face.<br>
+          2. <strong>关系 (guānxi)</strong> — Relationships first, business second.<br>
+          3. <strong>Seniority</strong> — Greet the most senior person first. Use 您 (nín) not 你 (nǐ).<br>
+          4. <strong>Patience</strong> — Decisions take time. Don't rush 考虑一下 (let me think).<br>
+          5. <strong>Gifts</strong> — Give with both hands. Avoid clocks (送终 = death omen) and green hats.
+        </div>
+        <div class="grammar-km">វប្បធម៌ជំនួញចិន ៥ ចំណុចសំខាន់: មុខ, ទំនាក់ទំនង, ចំណាត់ថ្នាក់, ការអត់ធ្មត់, អំណោយ</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-review">🔁</div><div class="section-title">Vocab Review — All 4 Weeks</div><div class="section-time">15 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Go through your Phrasebook tab and say every phrase aloud. Time yourself — can you do them all in under 5 minutes?</div><div class="task-km">ស្ដារពាក្យទាំងអស់ ពី ៤ សប្ដាហ៍ — និយាយបញ្ចេញសំឡេង</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-27', 3)">✓ Mark Day 27 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-28">
+  <div class="day-header" onclick="toggleDay('day-28')">
+    <div class="day-header-left"><div class="day-num">28</div><div class="day-info"><div class="day-title">Emergency Phrases & Recovery</div><div class="day-subtitle">救场 · Jiùchǎng</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-vocab">📚</div><div class="section-title">"I'm lost" Rescue Phrases</div><div class="section-time">15 min</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">我听不懂</div><div class="vocab-pinyin">Wǒ tīng bù dǒng</div></div><div class="vocab-en">I don't understand what you said</div><div class="vocab-km">ខ្ញុំមិនយល់</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">请说慢一点</div><div class="vocab-pinyin">Qǐng shuō màn yīdiǎn</div></div><div class="vocab-en">Please speak more slowly</div><div class="vocab-km">សូមនិយាយដោយយឺតជាង</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">用英语可以吗</div><div class="vocab-pinyin">Yòng Yīngyǔ kěyǐ ma</div></div><div class="vocab-en">Can we use English?</div><div class="vocab-km">អាចប្រើភាសាអង់គ្លេសបានទេ?</div></div>
+      <div class="vocab-item"><div class="vocab-row"><div class="vocab-zh">我的中文不太好</div><div class="vocab-pinyin">Wǒ de Zhōngwén bù tài hǎo</div></div><div class="vocab-en">My Chinese is not so good (say with a smile!)</div><div class="vocab-km">ភាសាចិនខ្ញុំនៅទន់ (និយាយដោយញញឹម!)</div></div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Practice Recovery Phrases</div><div class="section-time">15 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text">Practice saying all 4 rescue phrases smoothly and with a confident smile. These will save you in real meetings!</div><div class="task-km">ហ្វឹកហ្វឺន ៤ ឃ្លា "ជួយសង្គ្រោះ" — ទាំងនេះនឹងជួយអ្នកក្នុងការប្រជុំពិតប្រាកដ!</div></div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-28', 3)">✓ Mark Day 28 Complete</button>
+  </div>
+</div>
+
+<div class="day-card" id="day-29">
+  <div class="day-header" onclick="toggleDay('day-29')">
+    <div class="day-header-left"><div class="day-num">29</div><div class="day-info"><div class="day-title">Full Mock Business Meeting</div><div class="day-subtitle">模拟 · Mónǐ</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div class="section">
+      <div class="section-header"><div class="section-icon icon-speak">🎤</div><div class="section-title">Full Simulation</div><div class="section-time">30 min</div></div>
+      <div class="task-item"><div class="task-bullet"></div><div class="task-text"><strong>RECORD YOURSELF</strong> doing a complete mock business meeting in Mandarin:<br><br>1. Greet client (您好 + 很高兴认识您)<br>2. Exchange cards (名片 + 请多关照)<br>3. Offer tea (请喝茶)<br>4. Present your company (产品 + 优势)<br>5. Discuss price (价格 + 优惠)<br>6. Handle objection (放心 + 没问题)<br>7. Propose partnership (建议合作 + 互利共赢)<br>8. Close deal (成交！)<br>9. Toast (干杯！ + 祝贺)<br>10. Farewell (保持联系 + 期待下次合作)</div>
+      <div class="task-km">ថតខ្លួនឯង ក្នុងការក្លែងធ្វើប្រជុំជំនួញពេញលេញ ១០ ជំហាន — នេះជាការត្រៀម Final Test!</div>
+      </div>
+    </div>
+    <button class="complete-btn" onclick="markComplete('day-29', 3)">✓ Mark Day 29 Complete</button>
+  </div>
+</div>
+
+<!-- DAY 30 FINAL TEST -->
+<div class="day-card test-day" id="day-30">
+  <div class="day-header" onclick="toggleDay('day-30')">
+    <div class="day-header-left"><div class="day-num">30</div><div class="day-info"><div class="day-title">🏆 FINAL TEST — 30-Day Graduation</div><div class="day-subtitle">毕业测验 · Bìyè cèyàn</div></div></div>
+    <div class="day-meta"><div class="day-time">30 min</div><div class="day-toggle">▼</div></div>
+  </div>
+  <div class="day-body">
+    <div style="text-align:center; padding: 12px 0; font-family:'Noto Serif SC',serif; font-size:28px; color:var(--gold)">恭喜！Gōngxǐ!</div>
+    <div style="text-align:center; font-size:12px; color:var(--muted); margin-bottom:16px">Congratulations on reaching Day 30!</div>
+    <div class="test-q">
+      <div class="test-q-num">Final Q1 — Full Introduction</div>
+      <div class="test-q-text">Introduce yourself professionally: name, company, role, and what you're responsible for. No notes. Smooth delivery.</div>
+      <button class="reveal-btn" onclick="revealAnswer('f1')">Model</button>
+      <div class="test-answer" id="f1">您好！我叫___。我在___公司工作，我是___，负责___。很高兴认识您，请多关照！</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Final Q2 — Negotiate</div>
+      <div class="test-q-text">Client: "价格太高了。" Respond with: polite acknowledgment + offer to reconsider + reassure + propose win-win.</div>
+      <button class="reveal-btn" onclick="revealAnswer('f2')">Model</button>
+      <div class="test-answer" id="f2">我理解。我需要考虑一下，但请放心，我们会尽力找到对双方都互利共赢的方案。我建议我们一起合作，相信会有满意的结果。</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Final Q3 — Deal Close + Toast</div>
+      <div class="test-q-text">The deal is done! Say 成交, give a celebration toast (3+ sentences), and close with a farewell.</div>
+      <button class="reveal-btn" onclick="revealAnswer('f3')">Model</button>
+      <div class="test-answer" id="f3">成交！为我们的友谊和合作干杯！祝大家身体健康，生意兴隆！希望我们长期合作，互利共赢！干杯！期待下次合作，保持联系！</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Final Q4 — Urgent Message</div>
+      <div class="test-q-text">Write a full WeChat message to a client: greeting → urgent request for contract confirmation → deadline → close.</div>
+      <button class="reveal-btn" onclick="revealAnswer('f4')">Model</button>
+      <div class="test-answer" id="f4">您好！这件事比较紧急，关于合同条款，请尽快确认。截止日期是___，请查收并签字。非常感谢您的支持，期待您的回复！</div>
+    </div>
+    <div class="test-q">
+      <div class="test-q-num">Final Q5 — Culture</div>
+      <div class="test-q-text">Name 3 critical things to remember about 面子 (miànzi) and 关系 (guānxi) when meeting Chinese business clients.</div>
+      <button class="reveal-btn" onclick="revealAnswer('f5')">Model</button>
+      <div class="test-answer" id="f5">1. 面子: Never embarrass a client publicly — always let them save face. Give compliments genuinely. 2. 关系: Invest in relationship first (meals, small talk, WeChat messages) — trust before business. 3. Speaking even basic Mandarin (like you've done for 30 days!) shows enormous respect and builds 关系 faster than anything.</div>
+    </div>
+    <button class="complete-btn done" onclick="markComplete('day-30', 3); celebrate()">🏆 Complete 30-Day Challenge!</button>
+  </div>
+</div>
+
+</div></div><!-- end week 4 -->
+
+</div><!-- end view-plan -->
+
+<!-- PHRASEBOOK VIEW -->
+<div id="view-phrases" class="view">
+<div class="phrase-section">
+  <h2>Business Phrasebook</h2>
+  <p>快速参考 — Quick reference for your client meetings</p>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Greetings & Introductions</div>
+    <div class="phrase-item"><div class="phrase-zh">您好，我叫___，很高兴认识您！</div><div class="phrase-pinyin">Nín hǎo, wǒ jiào ___, hěn gāoxìng rènshi nín!</div><div class="phrase-en">Hello, my name is ___, pleased to meet you!</div><div class="phrase-km">ជំរាបសួរ ខ្ញុំឈ្មោះ___ រីករាយណាស់ដែលបានស្គាល់</div></div>
+    <div class="phrase-item"><div class="phrase-zh">这是我的名片，请多关照。</div><div class="phrase-pinyin">Zhè shì wǒ de míngpiàn, qǐng duō guānzhào.</div><div class="phrase-en">Here is my card, please take care of me.</div><div class="phrase-km">នេះជាកាតរបស់ខ្ញុំ សូមបងថែទាំខ្ញុំ</div></div>
+    <div class="phrase-item"><div class="phrase-zh">我在___公司工作，我是___，我负责___。</div><div class="phrase-pinyin">Wǒ zài ___ gōngsī gōngzuò, wǒ shì ___, wǒ fùzé ___.</div><div class="phrase-en">I work at ___ company, I am ___, I'm responsible for ___.</div><div class="phrase-km">ខ្ញុំធ្វើការនៅក្រុមហ៊ុន___ ខ្ញុំជា___ ខ្ញុំទទួលខុសត្រូវ___</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Scheduling & Meetings</div>
+    <div class="phrase-item"><div class="phrase-zh">您什么时候方便开会？</div><div class="phrase-pinyin">Nín shénme shíhòu fāngbiàn kāi huì?</div><div class="phrase-en">When is it convenient for you to have a meeting?</div><div class="phrase-km">អ្នកទំនេរពេលណា ដើម្បីប្រជុំ?</div><div class="phrase-context">📅 Use for scheduling meetings</div></div>
+    <div class="phrase-item"><div class="phrase-zh">请确认一下时间。</div><div class="phrase-pinyin">Qǐng quèrèn yīxià shíjiān.</div><div class="phrase-en">Please confirm the time.</div><div class="phrase-km">សូមបញ្ជាក់ពេលវេលា</div></div>
+    <div class="phrase-item"><div class="phrase-zh">没问题，我确认一下。</div><div class="phrase-pinyin">Méi wèntí, wǒ quèrèn yīxià.</div><div class="phrase-en">No problem, let me confirm.</div><div class="phrase-km">គ្មានបញ្ហា ខ្ញុំនឹងបញ្ជាក់</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Negotiation & Pricing</div>
+    <div class="phrase-item"><div class="phrase-zh">这个价格太高了，有没有优惠？</div><div class="phrase-pinyin">Zhège jiàgé tài gāo le, yǒu méiyǒu yōuhuì?</div><div class="phrase-en">This price is too high, is there any discount?</div><div class="phrase-km">តម្លៃនេះថ្លៃពេក មានបញ្ចុះតម្លៃទេ?</div></div>
+    <div class="phrase-item"><div class="phrase-zh">我们的预算只有___万元。</div><div class="phrase-pinyin">Wǒmen de yùsuàn zhǐ yǒu ___ wàn yuán.</div><div class="phrase-en">Our budget is only ___ ten-thousand yuan.</div><div class="phrase-km">ថវិការបស់ខ្ញុំគ្រាន់តែ___</div></div>
+    <div class="phrase-item"><div class="phrase-zh">我需要考虑一下。</div><div class="phrase-pinyin">Wǒ xūyào kǎolǜ yīxià.</div><div class="phrase-en">I need to think about it.</div><div class="phrase-km">ខ្ញុំត្រូវការពិចារណា</div><div class="phrase-context">💡 Polite way to avoid immediate "no"</div></div>
+    <div class="phrase-item"><div class="phrase-zh">我建议我们合作，对双方互利共赢。</div><div class="phrase-pinyin">Wǒ jiànyì wǒmen hézuò, duì shuāngfāng hùlì gòng yíng.</div><div class="phrase-en">I suggest we cooperate, it's mutually beneficial for both sides.</div><div class="phrase-km">ខ្ញុំស្នើឱ្យសហការ ផ្ដល់ប្រយោជន៍ដល់ភាគីទាំងពីរ</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Handling Issues</div>
+    <div class="phrase-item"><div class="phrase-zh">请放心，我们会尽快解决这个问题。</div><div class="phrase-pinyin">Qǐng fàngxīn, wǒmen huì jǐn kuài jiějué zhège wèntí.</div><div class="phrase-en">Please rest assured, we will resolve this issue ASAP.</div><div class="phrase-km">កុំបារម្ភ យើងនឹងដោះស្រាយបញ្ហានេះឱ្យបានឆាប់</div></div>
+    <div class="phrase-item"><div class="phrase-zh">这件事很紧急，请尽快回复。</div><div class="phrase-pinyin">Zhè jiàn shì hěn jǐnjí, qǐng jǐn kuài huífù.</div><div class="phrase-en">This matter is urgent, please reply ASAP.</div><div class="phrase-km">រឿងនេះបន្ទាន់ណាស់ សូមឆ្លើយតបឱ្យបានឆាប់</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Dining & Relationship Building</div>
+    <div class="phrase-item"><div class="phrase-zh">今天我请客！</div><div class="phrase-pinyin">Jīntiān wǒ qǐngkè!</div><div class="phrase-en">Today it's my treat!</div><div class="phrase-km">ថ្ងៃនេះខ្ញុំចេញថ្លៃ!</div><div class="phrase-context">🍽️ Always say this before the client can</div></div>
+    <div class="phrase-item"><div class="phrase-zh">为我们的友谊和合作干杯！</div><div class="phrase-pinyin">Wèi wǒmen de yǒuyì hé hézuò gān bēi!</div><div class="phrase-en">Cheers to our friendship and cooperation!</div><div class="phrase-km">ជល់ដើម្បីមិត្តភាព និងកិច្ចសហប្រតិបត្តិការ!</div></div>
+    <div class="phrase-item"><div class="phrase-zh">祝大家身体健康，生意兴隆！</div><div class="phrase-pinyin">Zhù dàjiā shēntǐ jiànkāng, shēngyì xīnglóng!</div><div class="phrase-en">Wishing everyone good health and prosperous business!</div><div class="phrase-km">ជូនពរសុខភាពល្អ និងជំនួញចម្រើនដល់ទាំងអស់គ្នា!</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Closing & Farewells</div>
+    <div class="phrase-item"><div class="phrase-zh">成交！祝贺我们合作愉快！</div><div class="phrase-pinyin">Chéngjiāo! Zhùhè wǒmen hézuò yúkuài!</div><div class="phrase-en">Deal! Congratulations on our successful cooperation!</div><div class="phrase-km">ព្រមព្រៀងហើយ! អបអរសាទរ!</div></div>
+    <div class="phrase-item"><div class="phrase-zh">保持联系，期待下次合作！</div><div class="phrase-pinyin">Bǎochí liánxì, qīdài xià cì hézuò!</div><div class="phrase-en">Keep in touch, looking forward to working together again!</div><div class="phrase-km">ទំនាក់ទំនងគ្នា រង់ចាំកិច្ចសហប្រតិបត្តិការលើកក្រោយ!</div></div>
+  </div>
+
+  <div class="phrase-category">
+    <div class="phrase-cat-title">Emergency / Recovery Phrases</div>
+    <div class="phrase-item"><div class="phrase-zh">不好意思，请说慢一点，可以吗？</div><div class="phrase-pinyin">Bù hǎo yìsi, qǐng shuō màn yīdiǎn, kěyǐ ma?</div><div class="phrase-en">Sorry, could you speak a bit more slowly?</div><div class="phrase-km">សុំទោស អាចនិយាយបន្តិចយឺតជាងបានទេ?</div><div class="phrase-context">🆘 Use this confidently — clients respect the effort!</div></div>
+    <div class="phrase-item"><div class="phrase-zh">我的中文不太好，但我在努力学习！</div><div class="phrase-pinyin">Wǒ de Zhōngwén bù tài hǎo, dàn wǒ zài nǔlì xuéxí!</div><div class="phrase-en">My Chinese isn't so good, but I'm working hard to learn!</div><div class="phrase-km">ភាសាចិនខ្ញុំនៅទន់ ប៉ុន្តែខ្ញុំព្យាយាមរៀន!</div><div class="phrase-context">😊 This phrase builds enormous goodwill!</div></div>
+  </div>
+</div>
+</div>
+
+<!-- TIPS VIEW -->
+<div id="view-tips" class="view">
+<div class="tips-section">
+  <h2>Study Tips & Strategy</h2>
+  <p>学习技巧 — Maximize your 30 minutes per day</p>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🎯 The 80/20 Rule for Business Mandarin</div>
+    <div class="tip-card-body">You don't need 5,000 words. Focus on the 200–300 most-used business phrases and master them deeply. Speaking 50 phrases with perfect confidence beats knowing 500 haphazardly. This plan gives you exactly those 200+ high-impact phrases.</div>
+    <div class="tip-card-km">អ្នកមិនចាំបាច់ពាក្យ ៥,០០០ ទេ — ផ្ដោតលើ ២០០ ឃ្លាជំនួញ និយាយបានច្បាស់ ១០០ ខ្លាំងជាងស្គាល់ ៥០០ ខ្លួន</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🔁 Spaced Repetition</div>
+    <div class="tip-card-body">Review yesterday's vocabulary at the start of each session (5 min). Re-read Week 1 phrases on Week 3. Your brain retains vocabulary best when it's reviewed at increasing intervals: 1 day → 3 days → 7 days → 30 days.</div>
+    <div class="tip-card-km">ពិនិត្យពាក្យកាលពីម្សិលមិញ នៅដើមរៀននីមួយៗ — ខ្លួនរបស់អ្នករក្សាពាក្យបានល្អបំផុតតាមរយៈការពិនិត្យម្ដងៗ</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🎤 Say It Out Loud — Always</div>
+    <div class="tip-card-body">Mandarin tones are MUSCULAR memory, not just mental. You must physically speak the words to train your mouth and ear. Whisper if you're in public. Never just read silently — always vocalize.</div>
+    <div class="tip-card-km">ត្រូវតែនិយាយបញ្ចេញជាសំឡេង — សំឡេងភាសាចិនជាការចងចាំសាច់ដុំ មិនមែនត្រឹមចិត្ត</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">📱 Use These Apps Daily</div>
+    <div class="tip-card-body"><strong>Pleco</strong> — Best Chinese dictionary, includes audio pronunciation. <strong>HelloChinese</strong> — Gamified beginner lessons. <strong>Anki</strong> — Flashcard app with spaced repetition. <strong>YouTube</strong> — Search "Mandarin Corner business" for real conversations.</div>
+    <div class="tip-card-km">Pleco: វចនានុក្រម · HelloChinese: មេរៀន · Anki: កាតពាក្យ · YouTube: ស្ដាប់</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🏮 The Secret Weapon: Start in Chinese, Finish in English</div>
+    <div class="tip-card-body">In real meetings, open with your first 3 sentences in Mandarin (greeting + intro + 请多关照). Then say "我的中文不太好，我们可以用英语吗？" Chinese clients will be so impressed they'll be warm for the entire meeting — even conducted in English.</div>
+    <div class="tip-card-km">ចាប់ផ្ដើមប្រជុំជំនួញជាភាសាចិន ៣ ប្រយោគ — ក្រោយមកសុំប្ដូរទៅអង់គ្លេស — ការបង្ហាញនេះបង្កើតទំនាក់ទំនងបានរហ័ស!</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">📊 Week-by-Week Strategy</div>
+    <div class="tip-card-body">
+      <strong>Week 1:</strong> Nail your introduction cold. Practice until it's automatic.<br>
+      <strong>Week 2:</strong> Learn to negotiate. Money phrases are the most valuable.<br>
+      <strong>Week 3:</strong> Focus on relationship-building language. Guānxi wins deals.<br>
+      <strong>Week 4:</strong> Put it all together. Simulate real client scenarios daily.
+    </div>
+    <div class="tip-card-km">ស.ទ.១: ការណែនាំ | ស.ទ.២: ការចរចា | ស.ទ.៣: ទំនាក់ទំនង | ស.ទ.៤: ការប្រើប្រាស់</div>
+  </div>
+
+  <div class="tip-card">
+    <div class="tip-card-title">🎯 30-Day Goal Assessment</div>
+    <div class="tip-card-body">After 30 days you should be able to: introduce yourself professionally, schedule a meeting, discuss pricing, handle basic objections, give a business dinner toast, write a WeChat follow-up, and recover gracefully when you don't understand. That's enough for REAL client interactions.</div>
+    <div class="tip-card-km">ក្រោយ ៣០ ថ្ងៃ: ណែនាំខ្លួន + កំណត់ប្រជុំ + ចរចាតម្លៃ + ជល់ + WeChat FollowUp — គ្រប់គ្រាន់សម្រាប់ប្រជុំអតិថិជនពិតប្រាកដ</div>
+  </div>
+
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-plan" onclick="switchView('plan')">
+    <span>📅</span>
+    <small>Plan</small>
+  </button>
+  <button class="nav-btn" id="nav-phrases" onclick="switchView('phrases')">
+    <span>📖</span>
+    <small>Phrases</small>
+  </button>
+  <button class="nav-btn" id="nav-tips" onclick="switchView('tips')">
+    <span>💡</span>
+    <small>Tips</small>
+  </button>
+</div>
+
+<script>
+  // State
+  const state = {
+    completed: JSON.parse(localStorage.getItem('completed') || '[]'),
+    vocabEarned: parseInt(localStorage.getItem('vocab') || '0')
+  };
+
+  function updateStats() {
+    const done = state.completed.length;
+    document.getElementById('completed-count').textContent = done;
+    document.getElementById('vocab-count').textContent = state.vocabEarned;
+    // streak: consecutive from day 1
+    let streak = 0;
+    for (let i = 1; i <= 30; i++) {
+      if (state.completed.includes('day-' + i)) streak++;
+      else break;
+    }
+    document.getElementById('streak-count').textContent = streak;
+    const pct = Math.round((done / 30) * 100);
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+    // restore completed styling
+    state.completed.forEach(id => {
+      const card = document.getElementById(id);
+      if (card) {
+        card.classList.add('completed');
+        const btn = card.querySelector('.complete-btn');
+        if (btn) { btn.textContent = '✓ Completed!'; btn.classList.add('done'); }
+      }
+    });
+  }
+
+  function toggleDay(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  function markComplete(id, vocabCount) {
+    if (!state.completed.includes(id)) {
+      state.completed.push(id);
+      state.vocabEarned += vocabCount;
+      localStorage.setItem('completed', JSON.stringify(state.completed));
+      localStorage.setItem('vocab', state.vocabEarned);
+    }
+    const card = document.getElementById(id);
+    card.classList.add('completed');
+    const btn = card.querySelector('.complete-btn');
+    if (btn) { btn.textContent = '✓ Completed!'; btn.classList.add('done'); }
+    updateStats();
+  }
+
+  function revealAnswer(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('show');
+    const btn = el.previousElementSibling;
+    btn.textContent = el.classList.contains('show') ? 'Hide Answer' : 'Show Answer';
+  }
+
+  function showWeek(num, tab) {
+    [1,2,3,4].forEach(w => {
+      document.getElementById('week-'+w).style.display = w === num ? 'block' : 'none';
+    });
+    document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  }
+
+  function switchView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function celebrate() {
+    const msg = document.createElement('div');
+    msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#1a1209;color:#e8c84a;font-family:"Noto Serif SC",serif;font-size:28px;padding:24px 32px;border-radius:12px;z-index:9999;text-align:center;border:2px solid #b8860b;animation:fadeIn 0.5s ease';
+    msg.innerHTML = '恭喜！🎉<br><span style="font-size:14px;font-family:DM Sans,sans-serif;color:rgba(255,255,255,0.7)">You completed the 30-Day Challenge!</span>';
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 4000);
+  }
+
+  // Init
+  updateStats();
+</script>
+</body>
+</html>
