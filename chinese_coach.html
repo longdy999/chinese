@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>180-Day Chinese Coach · គ្រូបង្វឹកភាសាចិន (Review Enhanced)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans Khmer', 'Noto Sans SC', sans-serif;
+            background: #f7f3eb; color: #2c2416; padding: 1.5rem; line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px; margin: 0 auto; background: white; border-radius: 2.8rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.08); padding: 2rem 2rem 3rem;
+            border: 1px solid #e7d7c4;
+        }
+        h1 { font-size: 2.3rem; color: #8b4513; margin-bottom: 0.2rem; }
+        .subtitle { font-size: 1rem; color: #5e4630; margin-bottom: 1.5rem; border-left: 5px solid #c49a6c; padding-left: 1rem; background: #faf5ed; border-radius: 0 12px 12px 0; }
+        .nav-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; background: #f5ede1; padding: 0.8rem 1.5rem; border-radius: 30px; margin-bottom: 1.8rem; }
+        select, button { padding: 0.5rem 1.2rem; border-radius: 20px; border: 1px solid #c49a6c; background: white; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
+        button { background: #c49a6c; color: white; border: none; }
+        button:hover { background: #a87b4b; }
+        .day-panel { background: #fffdf9; border: 1px solid #e2d3c0; border-radius: 24px; padding: 1.5rem 1.8rem; margin-top: 0.5rem; }
+        .section-title { font-weight: 700; font-size: 1.1rem; color: #6b4a2c; border-bottom: 2px dashed #ddc7aa; margin: 1.2rem 0 0.5rem; }
+        .explain { background: #f9f4ea; padding: 0.6rem 1rem; border-radius: 14px; margin: 0.5rem 0; font-style: italic; }
+        .khmer-block { color: #6b4e2e; background: #f9f2e7; padding: 0.4rem 0.9rem; border-radius: 10px; display: inline-block; margin: 0.25rem 0 0.5rem; }
+        .speak-example, .listen-line, .grammar-card { margin: 0.6rem 0; padding: 0.8rem; background: #fefcf7; border-left: 4px solid #c49a6c; border-radius: 0 12px 12px 0; }
+        .pinyin-line { font-style: italic; color: #3f5c3a; font-weight: 600; }
+        .chinese-line { font-size: 1.2rem; color: #aa5339; font-weight: 700; }
+        .khmer-line { color: #5e4630; }
+        .details-line { margin-top: 0.3rem; font-size: 0.9rem; color: #4f3b28; }
+        table.vocab-table { width: 100%; border-collapse: collapse; margin: 0.6rem 0 0.8rem; font-size: 0.9rem; }
+        .vocab-table th { background: #efe2d1; padding: 0.5rem; text-align: left; }
+        .vocab-table td, .vocab-table th { border: 1px solid #dacbb8; padding: 0.4rem 0.6rem; }
+        .mini-test { background: #fef8ee; border: 2px solid #b39264; border-radius: 24px; margin-top: 1.5rem; padding: 1rem 1.3rem; }
+        .quiz-q, .review-item { margin: 0.8rem 0 0.3rem; font-weight: 600; }
+        .answer-toggle { margin-left: 1rem; cursor: pointer; color: #b45f2a; text-decoration: underline; background: none; border: none; }
+        .answer-hidden { display: none; background: #fdf6ec; padding: 0.4rem 0.8rem; border-radius: 12px; margin: 0.25rem 0 0.5rem 1rem; }
+        .day-header { font-size: 1.6rem; font-weight: 700; color: #5b3a1c; display: flex; align-items: center; gap: 0.5rem; }
+        .week-badge { background: #dbbd92; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
+        .audio-recommend { background: #f0e9dd; border-radius: 14px; padding: 0.8rem 1rem; margin-bottom: 1rem; }
+        .tip-card { background: #fcf9f2; border: 1px solid #e7d7c4; border-radius: 16px; padding: 0.8rem 1rem; margin: 0.8rem 0; }
+        .tip-title { font-weight: 700; color: #b45f2a; }
+        .practice-task { background: #f5ede1; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin-top: 0.4rem; font-size: 0.9rem; }
+        .checkpoint-note { background: #e7dac8; padding: 0.5rem 1rem; border-radius: 16px; font-weight: 600; color: #4c351c; margin: 0.8rem 0; }
+        .grammar-pattern { font-weight: 700; background: #f5ede1; padding: 0.3rem 0.8rem; border-radius: 20px; display: inline-block; margin: 0.3rem 0; }
+        .mistake-box { background: #fff3e6; border: 1px solid #dbbd92; border-radius: 12px; padding: 0.5rem 1rem; margin-top: 0.5rem; }
+        .review-block { background: #fcfaf5; border: 1px solid #e2d3c0; border-radius: 16px; padding: 0.8rem 1rem; margin: 0.6rem 0; }
+        .final-task { background: #e7dac8; padding: 0.8rem; border-radius: 14px; font-weight: 600; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🥢 180-Day Chinese Coach · គ្រូចិន ១៨០ថ្ងៃ</h1>
+    <div class="subtitle">
+        🇰🇭 កម្រិតដំបូង → និយាយបានស្ទាត់ · Beginner → Confident speaker <br>
+        ⏱️ Each day ≤ 30 min · រៀងរាល់ថ្ងៃ ≤ 30 នាទី · តេស្តរៀងរាល់ 7 ថ្ងៃ
+    </div>
+
+    <div class="nav-bar">
+        <label for="daySelect">📅 Select Day (1–180):</label>
+        <select id="daySelect"></select>
+        <button id="goBtn">Go to Day</button>
+        <button id="prevDay">◀</button>
+        <button id="nextDay">▶</button>
+        <span style="margin-left:auto;color:#7f5b3b;">🔁 Detailed Review</span>
+    </div>
+
+    <div id="dayContent" class="day-panel"></div>
+</div>
+
+<script>
+(function() {
+    const TOTAL_DAYS = 180;
+    const dayData = [];
+
+    // ==================== FACTORIES ====================
+    function makeSpeak(pinyin, chinese, khmer, details) { return { pinyin, chinese, khmer, details }; }
+    function makeVocab(ch, py, kh, ex) { return { ch, py, kh, ex }; }
+    function makeScriptLine(p, c, k) { return { p, c, k }; }
+    function makeTip(tip, example, khmer, practice) { return { tip, example, khmer, practice }; }
+    function makeQuestion(q, a) { return { q, a }; }
+    function makeListening(audioRec, script, vocab, questions, tips) { return { audioRec, script, vocab, questions, tips }; }
+    function makeGrammarPoint(name, pattern, explanationKh, examples, commonMistake = null) { return { name, pattern, explanationKh, examples, commonMistake }; }
+
+    // New review factory
+    function makeReview(vocabReview, speakReview, listeningReview, grammarReview, finalTask) {
+        return { vocabReview, speakReview, listeningReview, grammarReview, finalTask };
+    }
+
+    // ==================== CONTENT DATABASE ====================
+    const contentDB = {
+        "Pinyin & Tones": {
+            speak: [
+                makeSpeak("mā, má, mǎ, mà", "妈、麻、马、骂", "ម៉ាក់ ស្ពៃ សេះ ជេរ", "The four tones on 'ma'."),
+                makeSpeak("Nǐ hǎo! Wǒ jiào ___", "你好！我叫___。", "សួស្តី! ខ្ញុំឈ្មោះ___។", "Greeting + self-intro."),
+                makeSpeak("Xiè xie, zàijiàn.", "谢谢，再见。", "អរគុណ លាហើយ។", "Polite closing.")
+            ],
+            vocab: [
+                makeVocab("你", "nǐ", "អ្នក", "你好"), makeVocab("好", "hǎo", "ល្អ", "很好"),
+                makeVocab("我", "wǒ", "ខ្ញុំ", "我叫..."), makeVocab("叫", "jiào", "ហៅ", "你叫什么？"),
+                makeVocab("谢谢", "xiè xie", "អរគុណ", "谢谢你"), makeVocab("再见", "zàijiàn", "លាហើយ", "明天再见")
+            ],
+            grammar: [
+                makeGrammarPoint("Basic sentence structure", "Subject + Adjective", "ភាសាចិនមានលំដាប់ពាក្យជាមូលដ្ឋាន៖ ប្រធាន + គុណនាម។ គ្មានកិរិយាសព្ទ 'to be' ទេ។", [
+                    { pinyin: "Nǐ hǎo.", chinese: "你好。", khmer: "សួស្តី (អ្នកល្អ)។", details: "Literally 'you good'." },
+                    { pinyin: "Wǒ hěn hǎo.", chinese: "我很好。", khmer: "ខ្ញុំសុខសប្បាយទេ។", details: "很 (hěn) = very." }
+                ], "Don't say '我是好' for 'I am good'."),
+                makeGrammarPoint("Tone sandhi", "3rd + 3rd → 2nd + 3rd", "ពេលសម្លេងទី៣ ពីរនៅជាប់គ្នា ពាក្យទីមួយក្លាយជាសម្លេងទី២។", [
+                    { pinyin: "nǐ hǎo → ní hǎo", chinese: "你好", khmer: "សួស្តី", details: "Most common example." }
+                ])
+            ],
+            listening: makeListening(
+                { keyword: "Chinese tones slow", platform: "YouTube", why: "Clear tone demo." },
+                [ makeScriptLine("mā, má, mǎ, mà", "妈、麻、马、骂", "ម៉ាក់ ស្ពៃ សេះ ជេរ") ],
+                [makeVocab("你", "nǐ", "អ្នក", "你好")],
+                [makeQuestion("What tone is mǎ?", "3rd")],
+                [makeTip("Focus on third tone.", "mǎ", "សម្លេងទាបចុះឡើង។", "Repeat 10 times.")]
+            ),
+            review: makeReview(
+                [ // vocabReview
+                    { q: "What does 你好 mean?", a: "Hello / You good." },
+                    { q: "Translate 'thank you' into Chinese.", a: "谢谢 (xiè xie)" },
+                    { q: "How do you say 'goodbye'?", a: "再见 (zàijiàn)" },
+                    { q: "What is the Pinyin for '我'?", a: "wǒ" },
+                    { q: "What tone is 'hǎo'?", a: "Third tone" }
+                ],
+                [ // speakReview
+                    { q: "Say: 'Hello, my name is Sok.'", a: "你好，我叫Sok。 (Nǐ hǎo, wǒ jiào Sok.)" },
+                    { q: "Ask: 'What is your name?'", a: "你叫什么名字？ (Nǐ jiào shénme míngzì?)" },
+                    { q: "Say: 'Thank you, goodbye.'", a: "谢谢，再见。 (Xiè xie, zàijiàn.)" }
+                ],
+                [ // listeningReview
+                    { q: "What are the four tones of 'ma'?", a: "mā, má, mǎ, mà" },
+                    { q: "How do you say 'thank you' in the audio?", a: "谢谢 (xiè xie)" },
+                    { q: "What word sounds like 'horse'?", a: "马 (mǎ)" }
+                ],
+                [ // grammarReview (fill blanks)
+                    { q: "我 ___ 很好。", a: "很 (hěn)", explanationKh: "ត្រូវប្រើ 很 ភ្ជាប់ប្រធាននិងគុណនាម។" },
+                    { q: "nǐ hǎo → ___ hǎo", a: "ní", explanationKh: "Tone sandhi: សម្លេងទី៣ ពីរជាប់គ្នា ពាក្យដំបូងក្លាយជាសម្លេងទី២។" }
+                ],
+                "Make 3 sentences: 1. Greet someone. 2. Introduce yourself. 3. Say thank you and goodbye."
+            )
+        },
+        "Numbers 1-10": {
+            speak: [
+                makeSpeak("Yī, èr, sān, sì, wǔ", "一、二、三、四、五", "១ ២ ៣ ៤ ៥", "Count 1-5."),
+                makeSpeak("Wǒ yǒu sān gè píngguǒ.", "我有三个苹果。", "ខ្ញុំមានផ្លែប៉ោមបី។", "Using measure word 个."),
+                makeSpeak("Wǒ ___ suì.", "我___岁。", "ខ្ញុំអាយុ___ឆ្នាំ។", "Age with 岁.")
+            ],
+            vocab: [
+                makeVocab("一", "yī", "មួយ", "一个"), makeVocab("二", "èr", "ពីរ", "二月"),
+                makeVocab("三", "sān", "បី", "三个"), makeVocab("有", "yǒu", "មាន", "我有..."),
+                makeVocab("岁", "suì", "ឆ្នាំ(អាយុ)", "我二十岁。"), makeVocab("个", "gè", "នាមរបស់", "一个人")
+            ],
+            grammar: [
+                makeGrammarPoint("Measure words", "Number + MW + Noun", "ប្រើពាក្យវាស់រវាងលេខ និងនាម។", [
+                    { pinyin: "yī gè rén", chinese: "一个人", khmer: "មនុស្សម្នាក់", details: "个 = general MW." },
+                    { pinyin: "sān gè píngguǒ", chinese: "三个苹果", khmer: "ផ្លែប៉ោមបី", details: "Always insert MW." }
+                ], "Don't say '三苹果'.")
+            ],
+            listening: makeListening(
+                { keyword: "Chinese numbers 1-10", platform: "YouTube", why: "Easy repetition." },
+                [ makeScriptLine("Yī, èr, sān.", "一、二、三。", "១ ២ ៣") ],
+                [makeVocab("一", "yī", "មួយ", "一个")],
+                [makeQuestion("What number is èr?", "2")],
+                [makeTip("一 tone change: yī gè → yí gè", "一个", "ប្រែសម្លេងពេលនៅមុខសម្លេងទី៤។", "Repeat 5x.")]
+            ),
+            review: makeReview(
+                [
+                    { q: "Translate 'three' into Chinese.", a: "三 (sān)" },
+                    { q: "How do you say 'I have'?", a: "我有 (wǒ yǒu)" },
+                    { q: "What is the measure word for people?", a: "个 (gè)" },
+                    { q: "What does 岁 mean?", a: "years old" },
+                    { q: "Say 'six' in Chinese.", a: "六 (liù)" }
+                ],
+                [
+                    { q: "Say: 'I am 25 years old.'", a: "我二十五岁。 (Wǒ èrshíwǔ suì.)" },
+                    { q: "Say: 'I have two apples.'", a: "我有两个苹果。 (Wǒ yǒu liǎng gè píngguǒ.)" },
+                    { q: "Ask: 'How old are you?'", a: "你几岁？ (Nǐ jǐ suì?)" }
+                ],
+                [
+                    { q: "How many apples are mentioned?", a: "三个 (three)" },
+                    { q: "What number follows 'sān'?", a: "四 (sì)" },
+                    { q: "What sound does 'yī' make before 'gè'?", a: "yí (2nd tone)" }
+                ],
+                [
+                    { q: "我 ___ 两个哥哥。", a: "有 (yǒu)", explanationKh: "ត្រូវប្រើ 有 ដើម្បីបង្ហាញកម្មសិទ្ធិ។" },
+                    { q: "一 ___ 人", a: "个 (gè)", explanationKh: "ពាក្យវាស់ត្រូវការរវាងលេខ និងនាម។" }
+                ],
+                "Make 3 sentences: 1. Your age. 2. Something you have. 3. Count 1-5."
+            )
+        },
+        "Nationality": {
+            speak: [
+                makeSpeak("Nǐ shì nǎ guó rén?", "你是哪国人？", "អ្នកជាជនជាតិអ្វី?", "Ask nationality."),
+                makeSpeak("Wǒ shì Jiǎnpǔzhài rén.", "我是柬埔寨人。", "ខ្ញុំជាជនជាតិខ្មែរ។", "Answer with 是 + country + 人."),
+                makeSpeak("Tā shì Zhōngguó rén ma?", "他是中国人吗？", "គាត់ជាជនជាតិចិនមែនទេ?", "Yes/no question with 吗.")
+            ],
+            vocab: [
+                makeVocab("哪", "nǎ", "ណា", "哪个？"), makeVocab("国", "guó", "ប្រទេស", "中国"),
+                makeVocab("人", "rén", "មនុស្ស", "外国人"), makeVocab("柬埔寨", "Jiǎnpǔzhài", "កម្ពុជា", "柬埔寨人"),
+                makeVocab("中国", "Zhōngguó", "ចិន", "中国人"), makeVocab("吗", "ma", "ទេ(សំណួរ)", "好吗？")
+            ],
+            grammar: [
+                makeGrammarPoint("是……人 for nationality", "Subject + 是 + Country + 人", "រចនាសម្ព័ន្ធប្រើសម្រាប់សញ្ជាតិ។", [
+                    { pinyin: "Wǒ shì Jiǎnpǔzhài rén.", chinese: "我是柬埔寨人。", khmer: "ខ្ញុំជាជនជាតិខ្មែរ។", details: "Country + 人." }
+                ], "Don't forget 人."),
+                makeGrammarPoint("Yes/no with 吗", "Statement + 吗？", "គ្រាន់តែបន្ថែម 吗 នៅចុងប្រយោគ។", [
+                    { pinyin: "Nǐ shì lǎoshī ma?", chinese: "你是老师吗？", khmer: "អ្នកជាគ្រូមែនទេ?", details: "Question form." }
+                ])
+            ],
+            listening: makeListening(
+                { keyword: "你是哪国人", platform: "YouTube", why: "Q&A format." },
+                [ makeScriptLine("Nǐ shì nǎ guó rén?", "你是哪国人？", "អ្នកជាជនជាតិអ្វី?") ],
+                [makeVocab("哪国", "nǎ guó", "ប្រទេសណា", "哪国人？")],
+                [makeQuestion("Where is she from?", "柬埔寨")],
+                [makeTip("Distinguish 国 guó vs 过 guo.", "中国 vs 去过", "国 មានសម្លេងទី២។", "Listen for tone difference.")]
+            ),
+            review: makeReview(
+                [
+                    { q: "What does 中国 mean?", a: "China" },
+                    { q: "How do you say 'Cambodia'?", a: "柬埔寨 (Jiǎnpǔzhài)" },
+                    { q: "Translate 'person' into Chinese.", a: "人 (rén)" },
+                    { q: "What is the question particle?", a: "吗 (ma)" },
+                    { q: "How do you say 'which country'?", a: "哪国 (nǎ guó)" }
+                ],
+                [
+                    { q: "Say: 'I am Cambodian.'", a: "我是柬埔寨人。 (Wǒ shì Jiǎnpǔzhài rén.)" },
+                    { q: "Ask: 'Are you Chinese?'", a: "你是中国人吗？ (Nǐ shì Zhōngguó rén ma?)" },
+                    { q: "Say: 'He is Thai.'", a: "他是泰国人。 (Tā shì Tàiguó rén.)" }
+                ],
+                [
+                    { q: "What question is asked in the audio?", a: "你是哪国人？" },
+                    { q: "What is the response?", a: "我是柬埔寨人。" },
+                    { q: "Is there a 吗 question in the script?", a: "No, not in this short script." }
+                ],
+                [
+                    { q: "我 ___ 柬埔寨人。", a: "是 (shì)", explanationKh: "ត្រូវប្រើ 是 ដើម្បីភ្ជាប់ប្រធានជាមួយសញ្ជាតិ។" },
+                    { q: "你是老师 ___？", a: "吗 (ma)", explanationKh: "សំណួរបាទ/ទេ ប្រើ 吗 នៅចុង។" }
+                ],
+                "Make 3 sentences: 1. Your nationality. 2. Ask someone their nationality. 3. Ask if someone is Chinese."
+            )
+        }
+    };
+
+    // Generic fallback
+    function buildGenericContent(topic) {
+        return {
+            speak: [
+                makeSpeak(`${topic} hěn zhòngyào.`, `${topic} 很重要。`, `${topic} សំខាន់ណាស់។`, `Importance.`),
+                makeSpeak(`Wǒ xuéxí ${topic}.`, `我学习${topic}。`, `ខ្ញុំរៀន ${topic}។`, `Study.`),
+                makeSpeak(`Nǐ xǐhuān ${topic} ma?`, `你喜欢${topic}吗？`, `អ្នកចូលចិត្ត ${topic} ទេ?`, `Ask preference.`)
+            ],
+            vocab: [
+                makeVocab("重要", "zhòngyào", "សំខាន់", "很重要"),
+                makeVocab("学习", "xuéxí", "រៀន", "学习汉语"),
+                makeVocab("喜欢", "xǐhuān", "ចូលចិត្ត", "我喜欢..."),
+                makeVocab("吗", "ma", "ទេ", "好吗？")
+            ],
+            grammar: [
+                makeGrammarPoint("Using 很 (hěn)", "Subject + 很 + Adj", "很 ភ្ជាប់ប្រធានជាមួយគុណនាម។", [
+                    { pinyin: "Wǒ hěn hǎo.", chinese: "我很好。", khmer: "ខ្ញុំសុខសប្បាយទេ។", details: "Common pattern." }
+                ])
+            ],
+            listening: makeListening(
+                { keyword: `${topic} Chinese beginner`, platform: "Podcast", why: "Slow audio." },
+                [ makeScriptLine(`Wǒ xuéxí ${topic}.`, `我学习${topic}。`, `ខ្ញុំរៀន ${topic}។`) ],
+                [makeVocab("学习", "xuéxí", "រៀន", "学习汉语")],
+                [makeQuestion("What are you studying?", topic)],
+                [makeTip("Listen for repeated words.", topic, "ស្តាប់ពាក្យដដែលៗ។", "Note words.")]
+            ),
+            review: makeReview(
+                [
+                    { q: "Translate 'study' into Chinese.", a: "学习 (xuéxí)" },
+                    { q: "What does 重要 mean?", a: "important" },
+                    { q: "How do you say 'I like'?", a: "我喜欢 (wǒ xǐhuān)" },
+                    { q: "What is the question particle?", a: "吗 (ma)" },
+                    { q: "Pinyin for '很好'?", a: "hěn hǎo" }
+                ],
+                [
+                    { q: "Say: 'I study Chinese.'", a: "我学习汉语。 (Wǒ xuéxí Hànyǔ.)" },
+                    { q: "Ask: 'Do you like this?'", a: "你喜欢这个吗？ (Nǐ xǐhuān zhège ma?)" },
+                    { q: "Say: 'This is important.'", a: "这个很重要。 (Zhège hěn zhòngyào.)" }
+                ],
+                [
+                    { q: "What is the main topic of the audio?", a: topic },
+                    { q: "What verb is used for 'study'?", a: "学习 (xuéxí)" }
+                ],
+                [
+                    { q: "我 ___ 喜欢。", a: "很 (hěn)", explanationKh: "ត្រូវប្រើ 很 មុនគុណនាម។" },
+                    { q: "你 ___ 学生吗？", a: "是 (shì)", explanationKh: "សំណួរជាមួយ 吗 ត្រូវការ 是។" }
+                ],
+                `Make 3 sentences using today's vocabulary and grammar.`
+            )
+        };
+    }
+
+    function getContent(topic) { return contentDB[topic] || buildGenericContent(topic); }
+
+    // ==================== BUILD 180 DAYS ====================
+    function addDay(day, week, topicEn, topicKh, explainEn, explainKh, content, isTest = false, testQ = null) {
+        dayData.push({
+            day, week, topicEn, topicKh, explainEn, explainKh,
+            speak: content.speak, vocab: content.vocab, grammar: content.grammar,
+            listening: content.listening, review: content.review, isTest, testQ
+        });
+    }
+
+    // Week 1
+    addDay(1, 1, "Pinyin & Tones", "ភីនអ៊ីន", "Master the four tones and basic Pinyin.", "រៀនសម្លេងទាំង៤ និងភីនអ៊ីនមូលដ្ឋាន។", getContent("Pinyin & Tones"));
+    addDay(2, 1, "Numbers 1-10", "លេខ ១-១០", "Count 1-10 and introduce yourself.", "រៀនលេខ ១-១០ និងណែនាំខ្លួន។", getContent("Numbers 1-10"));
+    addDay(3, 1, "Nationality", "សញ្ជាតិ", "Ask and answer nationality.", "សួរនិងឆ្លើយសញ្ជាតិ។", getContent("Nationality"));
+    addDay(4, 1, "This & That", "នេះ និង នោះ", "Use 这 and 那.", "ប្រើ 这 និង 那។", getContent("This & That"));
+    addDay(5, 1, "Family", "គ្រួសារ", "Introduce family.", "ណែនាំគ្រួសារ។", getContent("Family"));
+    addDay(6, 1, "Polite Expressions", "ពាក្យគួរសម", "Please, sorry.", "សូម សុំទោស។", getContent("Polite Expressions"));
+    addDay(7, 1, "Review & Mini Test 1", "តេស្តទី1", "Week 1 review.", "ពិនិត្យសប្តាហ៍ទី1។", { speak: [], vocab: [], grammar: "Review all grammar.", listening: null }, true,
+        [makeQuestion("'Thank you'?", "谢谢"), makeQuestion("Tone of mǎ?", "3rd")]);
+
+    // Week 2
+    addDay(8, 2, "Directions", "ទិសដៅ", "Ask where places are.", "សួរទីតាំង។", getContent("Directions"));
+    addDay(9, 2, "Left/Right", "ឆ្វេងស្តាំ", "Give directions.", "ផ្តល់ទិសដៅ។", getContent("Left/Right/Straight"));
+    addDay(10, 2, "Transportation", "មធ្យោបាយ", "Taxi, bus.", "តាក់ស៊ី ឡានក្រុង។", getContent("Transportation"));
+    addDay(11, 2, "Ordering Food", "កុម្ម៉ង់", "Order food.", "កុម្ម៉ង់ម្ហូប។", getContent("Ordering Food"));
+    addDay(12, 2, "Paying", "បង់ប្រាក់", "Ask for bill.", "សួរគិតលុយ។", getContent("Paying"));
+    addDay(13, 2, "Hotel", "សណ្ឋាគារ", "Check-in.", "ចូលសណ្ឋាគារ។", getContent("Hotel Check-in"));
+    addDay(14, 2, "Review & Mini Test 2", "តេស្តទី2", "Week 2 review.", "ពិនិត្យសប្តាហ៍ទី2។", { speak: [], vocab: [], grammar: "Review.", listening: null }, true,
+        [makeQuestion("Where is restroom?", "请问，洗手间在哪里？")]);
+
+    // Weeks 3-26 auto-generate
+    const weekTopics = [
+        { w: 3, topics: ["Time", "Days & Dates", "Hobbies", "Jobs", "Weather", "Shopping", "Review & Mini Test 3"] },
+        { w: 4, topics: ["At the Doctor", "Emergency", "Phone Calls", "Describing People", "Likes & Dislikes", "Invitations", "Review & Mini Test 4"] },
+        { w: 5, topics: ["At the Airport", "Customs", "Luggage", "Hotel Problems", "Renting", "Sightseeing", "Review & Mini Test 5"] },
+        { w: 6, topics: ["Making Friends", "Family Detail", "Daily Routine", "Past Tense 了", "Future Plans", "Giving Reasons", "Review & Mini Test 6"] },
+        { w: 7, topics: ["Comparatives", "Superlatives", "Buying Tickets", "Train Station", "Asking for Help", "Lost Items", "Review & Mini Test 7"] },
+        { w: 8, topics: ["Colors & Clothing", "Sizes & Fitting", "Returning Items", "Post Office", "Banking", "Money Exchange", "Review & Mini Test 8"] },
+        { w: 9, topics: ["Body & Health", "Sports", "Music & Arts", "Appointments", "Cultural Etiquette", "Festivals Intro", "Review & Mini Test 9"] },
+        { w: 10, topics: ["Cooking & Food", "Recipes", "Market Shopping", "Bargaining", "Weights & Measures", "Local Dishes", "Review & Mini Test 10"] },
+        { w: 11, topics: ["Travel Stories", "Describing Experiences", "Emotions", "Compliments", "Apologies", "Social Media", "Review & Mini Test 11"] },
+        { w: 12, topics: ["Workplace Chinese", "Meetings", "Emails", "Interviews", "Negotiations", "Presentations", "Review & Mini Test 12"] },
+        { w: 13, topics: ["Chinese Idioms 1", "Idioms 2", "News & Media", "Debating", "Culture 1", "Culture 2", "Review & Mini Test 13"] },
+        { w: 14, topics: ["Travel Deeper", "Advanced Directions", "Hotel Issues", "Local Transport", "Health Emergencies", "Pharmacy", "Review & Mini Test 14"] },
+        { w: 15, topics: ["Technology", "Internet", "Social Apps", "Online Shopping", "Digital Payments", "Cybersecurity", "Review & Mini Test 15"] },
+        { w: 16, topics: ["Education", "School Life", "Subjects", "Exams", "University Talk", "Study Abroad", "Review & Mini Test 16"] },
+        { w: 17, topics: ["Relationships", "Dating", "Marriage", "Family Conflicts", "Generation Gap", "Friendship", "Review & Mini Test 17"] },
+        { w: 18, topics: ["Environment", "Weather Extremes", "Recycling", "Energy", "Climate Change", "Nature", "Review & Mini Test 18"] },
+        { w: 19, topics: ["Arts", "Movies", "Books", "Music Deep", "Painting", "Performance", "Review & Mini Test 19"] },
+        { w: 20, topics: ["History", "Ancient China", "Modern China", "World History", "Biographies", "Museums", "Review & Mini Test 20"] },
+        { w: 21, topics: ["Business", "Startups", "Marketing", "Finance", "Investing", "E-commerce", "Review & Mini Test 21"] },
+        { w: 22, topics: ["Law & Rights", "Contracts", "Renting Law", "Consumer Rights", "Police", "Court", "Review & Mini Test 22"] },
+        { w: 23, topics: ["Philosophy", "Confucianism", "Taoism", "Buddhism", "Western Philosophy", "Life Views", "Review & Mini Test 23"] },
+        { w: 24, topics: ["Advanced Conversation", "Debate Skills", "Public Speaking", "Storytelling", "Humor", "Small Talk", "Review & Mini Test 24"] },
+        { w: 25, topics: ["Travel Planning", "Itineraries", "Booking Online", "Travel Insurance", "Local Customs", "Solo Travel", "Review & Mini Test 25"] },
+        { w: 26, topics: ["Final Review 1", "Final Review 2", "Final Review 3", "Final Review 4", "Final Review 5", "Final Test", "Celebration"] }
+    ];
+
+    let dayCounter = 15;
+    for (let wt of weekTopics) {
+        for (let d = 0; d < 7; d++) {
+            if (dayCounter > TOTAL_DAYS) break;
+            let topic = wt.topics[d];
+            let isTest = (d === 6);
+            let explainEn = isTest ? `Review week ${wt.w} and take mini test.` : `Learn about "${topic}".`;
+            let explainKh = isTest ? `ពិនិត្យសប្តាហ៍ទី${wt.w} និងធ្វើតេស្ត។` : `រៀនអំពី "${topic}"។`;
+            if (isTest) {
+                addDay(dayCounter, wt.w, topic, topic, explainEn, explainKh,
+                    { speak: [], vocab: [], grammar: `Review all grammar from week ${wt.w}.`, listening: null },
+                    true, [makeQuestion(`Translate a key phrase.`, "(answer)")]);
+            } else {
+                addDay(dayCounter, wt.w, topic, topic, explainEn, explainKh, getContent(topic));
+            }
+            dayCounter++;
+        }
+    }
+    if (dayData.length > TOTAL_DAYS) dayData.length = TOTAL_DAYS;
+
+    // ==================== RENDER ====================
+    const selectEl = document.getElementById('daySelect');
+    const contentDiv = document.getElementById('dayContent');
+    for (let i = 1; i <= TOTAL_DAYS; i++) {
+        let opt = document.createElement('option'); opt.value = i; opt.textContent = `Day ${i}`;
+        selectEl.appendChild(opt);
+    }
+
+    function renderDay(dayNum) {
+        const d = dayData.find(d => d.day === dayNum);
+        if (!d) return;
+        selectEl.value = dayNum;
+        let html = `<div class="day-header">📅 Day ${d.day} · ថ្ងៃទី${d.day} <span class="week-badge">Week ${d.week}</span></div>`;
+        html += `<div class="explain"><strong>🇬🇧 English:</strong> ${d.explainEn}</div>`;
+        html += `<div class="khmer-block"><strong>🇰🇭 ខ្មែរ:</strong> ${d.explainKh}</div>`;
+
+        // Speaking
+        html += `<div class="section-title">🗣️ Speaking (និយាយ) – 10 min</div>`;
+        if (d.speak?.length) {
+            d.speak.forEach(ex => html += `<div class="speak-example"><div class="pinyin-line">${ex.pinyin}</div><div class="chinese-line">${ex.chinese}</div><div class="khmer-line">🇰🇭 ${ex.khmer}</div><div class="details-line">📝 ${ex.details}</div></div>`);
+        } else html += "<p>Recite key phrases from this week.</p>";
+
+        // Listening
+        html += `<div class="section-title">🎧 Listening (ស្តាប់) – 10 min</div>`;
+        if (d.listening) {
+            const lo = d.listening;
+            html += `<div class="audio-recommend"><strong>📻 Real Audio</strong><br>🔍 ${lo.audioRec.keyword}<br>📺 ${lo.audioRec.platform}<br>💡 ${lo.audioRec.why}</div>`;
+            html += `<div><strong>🎙️ Script</strong></div>`;
+            lo.script.forEach(line => html += `<div class="listen-line"><div class="pinyin-line">${line.p}</div><div class="chinese-line">${line.c}</div><div class="khmer-line">🇰🇭 ${line.k}</div></div>`);
+            if (lo.vocab.length) {
+                html += `<div class="section-title">📒 Audio Vocab</div><table class="vocab-table"><tr><th>Chinese</th><th>Pinyin</th><th>Khmer</th><th>Example</th></tr>`;
+                lo.vocab.forEach(v => html += `<tr><td class="chinese-char">${v.ch}</td><td class="pinyin">${v.py}</td><td>${v.kh}</td><td>${v.ex}</td></tr>`);
+                html += `</table>`;
+            }
+            html += `<div class="section-title">❓ Questions</div><ol style="margin-left:1.5rem;">`;
+            lo.questions.forEach((q, i) => html += `<li>${q.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden">${q.a}</div></li>`);
+            html += `</ol>`;
+            html += `<div class="section-title">🎯 Tips</div>`;
+            lo.tips.forEach((t, i) => html += `<div class="tip-card"><div class="tip-title">💡 ${i+1}. ${t.tip}</div><div>🔹 Example: <span class="pinyin-line">${t.example}</span></div><div>🇰🇭 ${t.khmer}</div><div class="practice-task">🎯 Practice: ${t.practice}</div></div>`);
+        } else html += "<p>Listen to the weekly review dialogue.</p>";
+
+        // Vocabulary
+        if (d.vocab?.length) {
+            html += `<div class="section-title">📒 Vocabulary (វាក្យសព្ទ) – 5 min</div><table class="vocab-table"><tr><th>Chinese</th><th>Pinyin</th><th>Khmer</th><th>Example</th></tr>`;
+            d.vocab.forEach(v => html += `<tr><td class="chinese-char">${v.ch}</td><td class="pinyin">${v.py}</td><td>${v.kh}</td><td>${v.ex}</td></tr>`);
+            html += `</table>`;
+        }
+
+        // Grammar
+        html += `<div class="section-title">📚 Grammar (វេយ្យាករណ៍) – 5 min</div>`;
+        if (Array.isArray(d.grammar) && d.grammar.length > 0) {
+            d.grammar.forEach(gp => {
+                html += `<div class="grammar-card">`;
+                html += `<div style="font-weight:700;font-size:1.05rem;">🔹 ${gp.name}</div>`;
+                if (gp.pattern) html += `<div class="grammar-pattern">${gp.pattern}</div>`;
+                html += `<div style="margin:0.4rem 0;"><strong>🇰🇭 ការពន្យល់:</strong> ${gp.explanationKh}</div>`;
+                html += `<div><strong>ឧទាហរណ៍:</strong></div>`;
+                gp.examples.forEach(ex => {
+                    html += `<div style="margin-left:1rem;margin-top:0.3rem;"><div class="pinyin-line">${ex.pinyin}</div><div class="chinese-line">${ex.chinese}</div><div class="khmer-line">🇰🇭 ${ex.khmer}</div><div class="details-line">📝 ${ex.details}</div></div>`;
+                });
+                if (gp.commonMistake) html += `<div class="mistake-box"><strong>⚠️ Common mistake:</strong> ${gp.commonMistake}</div>`;
+                html += `</div>`;
+            });
+        } else if (typeof d.grammar === 'string') html += `<p>${d.grammar}</p>`;
+
+        // Review (enhanced)
+        html += `<div class="section-title">🔁 Review (ពិនិត្យឡើងវិញ) – 5 min</div>`;
+        if (d.review && !d.isTest) {
+            const rv = d.review;
+            // Vocabulary Review
+            html += `<div class="review-block"><strong>📝 Vocabulary Review</strong>`;
+            rv.vocabReview.forEach((item, idx) => {
+                html += `<div class="review-item">${idx+1}. ${item.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden">${item.a}</div></div>`;
+            });
+            html += `</div>`;
+
+            // Speaking Review
+            html += `<div class="review-block"><strong>🗣️ Speaking Review</strong>`;
+            rv.speakReview.forEach((item, idx) => {
+                html += `<div class="review-item">${idx+1}. ${item.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden">${item.a}</div></div>`;
+            });
+            html += `</div>`;
+
+            // Listening Review
+            html += `<div class="review-block"><strong>👂 Listening Review</strong>`;
+            rv.listeningReview.forEach((item, idx) => {
+                html += `<div class="review-item">${idx+1}. ${item.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden">${item.a}</div></div>`;
+            });
+            html += `</div>`;
+
+            // Grammar Review
+            html += `<div class="review-block"><strong>✏️ Grammar Review (Fill in the blank)</strong>`;
+            rv.grammarReview.forEach((item, idx) => {
+                html += `<div class="review-item">${idx+1}. ${item.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden"><strong>${item.a}</strong><br>🇰🇭 ${item.explanationKh}</div></div>`;
+            });
+            html += `</div>`;
+
+            // Final Task
+            html += `<div class="final-task">🎯 Final Task: ${rv.finalTask}</div>`;
+        } else if (d.isTest) {
+            html += "<p>Self-test all vocabulary and phrases from this week. Record your speaking and compare.</p>";
+        } else {
+            html += "<p>Repeat the example sentences aloud. Quiz yourself on vocabulary. Practice the listening again.</p>";
+        }
+
+        // Mini Test (test days)
+        if (d.isTest && d.testQ) {
+            html += `<div class="mini-test"><h3>📝 Mini Test</h3>`;
+            d.testQ.forEach((tq, idx) => html += `<div class="quiz-q">${idx+1}. ${tq.q} <span class="answer-toggle" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show</span><div class="answer-hidden">${tq.a}</div></div>`);
+            html += `</div>`;
+        }
+        if (d.day % 7 === 0 && !d.isTest) html += `<div class="checkpoint-note">🏁 Weekly checkpoint</div>`;
+
+        contentDiv.innerHTML = html;
+    }
+
+    document.getElementById('goBtn').onclick = () => renderDay(parseInt(selectEl.value));
+    document.getElementById('prevDay').onclick = () => { let cur = parseInt(selectEl.value); if (cur > 1) renderDay(cur-1); };
+    document.getElementById('nextDay').onclick = () => { let cur = parseInt(selectEl.value); if (cur < TOTAL_DAYS) renderDay(cur+1); };
+
+    renderDay(1);
+})();
+</script>
+</body>
+</html>
